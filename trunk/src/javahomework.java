@@ -3,7 +3,7 @@ import java.io.*;
 public class javahomework {
 	public String readAll() throws Exception
 	{
-		FileReader r=new FileReader("bbsdoc[4].txt");
+		FileReader r=new FileReader("src\\bbsdoc[4].txt");
 		BufferedReader reader=new BufferedReader(r);
 		StringBuilder builder=new StringBuilder();
 		String line;
