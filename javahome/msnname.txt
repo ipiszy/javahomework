@@ -1,0 +1,13 @@
+3
+GroupBoys 3
+LiYi
+LiEr
+ZhangSan
+GroupGirls 4
+WangSi
+ZhangWu
+LiLiu
+LiQi
+GroupKillers 2
+Zhang
+ZhangLiuQiBa
