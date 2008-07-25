@@ -1,0 +1,43 @@
+select distinct temp1.id,temp1.date
+
+from 
+    (SELECT itemdb.id,itemdb.date 
+     FROM itemdb 
+     where date=(select max(date) from itemdb) and state='wait'
+    ) temp1 
+
+select temp2.id from 
+(select * 
+ from itemdb
+ inner join 
+    (select distinct id,formname,formflowdb.department,step
+     from formflowdb inner join managerinfodb
+     on formflowdb.department=
+        (select department 
+         from managerinfodb 
+         where username='WangJiaying'
+        )
+     ) temp1 
+
+ on itemdb.id=temp1.id
+) temp2
+
+where temp2.date=
+      (select max(temp2.date) from temp2);
+
+select min(temp2.id) from
+(select itemdb.id,itemdb.state
+ from itemdb
+ inner join
+    (select distinct formname,step
+     from formflowdb
+     inner join managerinfodb
+     on formflowdb.department=
+        (select department
+         from managerinfodb
+         where username='WangJiaying'
+        )
+     ) temp1
+ on itemdb.step=temp1.step and itemdb.formname=temp1.formname
+) temp2
+ where temp2.state='wait';                
