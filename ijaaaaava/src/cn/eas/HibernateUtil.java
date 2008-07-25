@@ -79,6 +79,7 @@ public class HibernateUtil {
 			System.out.println("commit tx");
 		} catch (HibernateException e) {
 			logger.error(e);
+			HibernateUtil.rollbackTransaction();
 		}
 	}
 

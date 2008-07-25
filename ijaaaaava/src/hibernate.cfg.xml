@@ -26,5 +26,8 @@
 		<mapping resource="Accountdb.hbm.xml" />
 		<mapping resource="Itemdb.hbm.xml" />
 		<mapping resource="Projectdb.hbm.xml" />
+		<mapping resource="Formdb.hbm.xml" />
+		<mapping resource="Formflowdb.hbm.xml" />
+		
 	</session-factory>
 </hibernate-configuration>
