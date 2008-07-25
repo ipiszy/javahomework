@@ -27,7 +27,6 @@ public abstract class _BaseRootDAO {
 	}
 
 
-
 	protected static Map<String, SessionFactory> sessionFactoryMap;
 	protected SessionFactory sessionFactory;
 
@@ -204,12 +203,14 @@ public abstract class _BaseRootDAO {
 	 * implementation of this DAO.
 	 * @return the reference Class
 	 */
+	@SuppressWarnings("unchecked")
 	protected abstract Class getReferenceClass();
 
 	/**
 	 * Used by the base DAO classes but here for your modification
 	 * Get object matching the given key and return it.
 	 */
+	@SuppressWarnings("unchecked")
 	protected Object get(Class refClass, Serializable key) {
 		Session s = null;
 		try {
@@ -224,6 +225,7 @@ public abstract class _BaseRootDAO {
 	 * Used by the base DAO classes but here for your modification
 	 * Get object matching the given key and return it.
 	 */
+	@SuppressWarnings("unchecked")
 	protected Object get(Class refClass, Serializable key, Session s) {
 		return s.get(refClass, key);
 	}
@@ -232,6 +234,7 @@ public abstract class _BaseRootDAO {
 	 * Used by the base DAO classes but here for your modification
 	 * Load object matching the given key and return it.
 	 */
+	@SuppressWarnings("unchecked")
 	protected Object load(Class refClass, Serializable key) {
 		Session s = null;
 		try {
@@ -246,6 +249,7 @@ public abstract class _BaseRootDAO {
 	 * Used by the base DAO classes but here for your modification
 	 * Load object matching the given key and return it.
 	 */
+	@SuppressWarnings("unchecked")
 	protected Object load(Class refClass, Serializable key, Session s) {
 		return s.load(refClass, key);
 	}
@@ -253,6 +257,7 @@ public abstract class _BaseRootDAO {
 	/**
 	 * Return all objects related to the implementation of this DAO with no filter.
 	 */
+	@SuppressWarnings("unchecked")
 	public java.util.List findAll () {
 		Session s = null;
 		try {
@@ -269,6 +274,7 @@ public abstract class _BaseRootDAO {
 	 * Use the session given.
 	 * @param s the Session
 	 */
+	@SuppressWarnings("unchecked")
 	public java.util.List findAll (Session s) {
    		return findAll(s, getDefaultOrder());
 	}
@@ -276,6 +282,7 @@ public abstract class _BaseRootDAO {
 	/**
 	 * Return all objects related to the implementation of this DAO with no filter.
 	 */
+	@SuppressWarnings("unchecked")
 	public java.util.List findAll (Order defaultOrder) {
 		Session s = null;
 		try {

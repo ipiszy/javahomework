@@ -16,15 +16,18 @@ public class ActivityManager {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(ActivityManager.queryCurrentApplicantInfo("ipiszy"));
-		System.out.println(ActivityManager.queryItem(1));
-		ActivityManager.saveItem(new Item(13, "lalala", 2, "wait",
+		System.out.println(new ActivityManager()
+				.queryCurrentApplicantInfo("ipiszy"));
+		System.out.println(new ActivityManager().queryItem(1));
+		new ActivityManager().saveItem(new Item(13, "lalala", 2, "wait",
 				"1988-12-18", 12, "ipiszy", "", ""));
+		System.out.println(new ActivityManager().loadItem("ZhangKunpeng")
+				.getID());
 
 	}
 
 	@SuppressWarnings("unchecked")
-	public static ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
+	public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
 
@@ -50,7 +53,7 @@ public class ActivityManager {
 		return itemInfoList;
 	}
 
-	public static Item queryItem(long id) {
+	public Item queryItem(long id) {
 		Session s = HibernateUtil.currentSession();
 		Item item = null;
 
@@ -73,7 +76,7 @@ public class ActivityManager {
 		return item;
 	}
 
-	public static boolean saveItem(Item item) {
+	public boolean saveItem(Item item) {
 
 		Session s = HibernateUtil.currentSession();
 		boolean flag = true;
@@ -105,7 +108,7 @@ public class ActivityManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static ArrayList<ItemInfo> queryCurrentRecordInfo(String department) {
+	public ArrayList<ItemInfo> queryCurrentRecordInfo(String department) {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
 
@@ -137,7 +140,7 @@ public class ActivityManager {
 		return itemInfoList;
 	}
 
-	public static Item loadItem(long id) {
+	public Item loadItem(long id) {
 		Session s = HibernateUtil.currentSession();
 		Item item = new Item();
 
@@ -158,5 +161,54 @@ public class ActivityManager {
 		}
 		HibernateUtil.closeSession();
 		return item;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Item loadItem(String username) {
+
+		Session s = HibernateUtil.currentSession();
+		Item item = null;
+		long id=0;
+
+		try {
+			HibernateUtil.beginTransaction();
+			List itemList = s
+					.createSQLQuery(
+							"select min(temp2.id) "
+									+ "from "
+									+ "(select itemdb.id,itemdb.state "
+									+ "from itemdb "
+									+ "inner join "
+									+ "(select distinct formname,step "
+									+ "from formflowdb "
+									+ "inner join managerinfodb "
+									+ "on formflowdb.department= "
+									+ "(select department "
+									+ "from managerinfodb "
+									+ "where username='"
+									+ username
+									+ "' "
+									+ ") "
+									+ ") temp1 "
+									+ "on itemdb.step=temp1.step and itemdb.formname=temp1.formname "
+									+ ") temp2 " + "where temp2.state='wait'")
+					.list();
+			HibernateUtil.commitTransaction();
+
+			for (Object obj : itemList) {
+				id = Long.parseLong(obj.toString());
+			}
+
+			if (id == 0)
+				item = null;
+			else
+				item = loadItem(id);
+
+		} catch (HibernateException e) {
+			log.fatal(e);
+		}
+
+		return item;
+
 	}
 }
