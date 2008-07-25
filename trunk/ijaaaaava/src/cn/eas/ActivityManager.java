@@ -23,10 +23,14 @@ public class ActivityManager {
 				"1988-12-18", 12, "ipiszy", "", ""));
 		System.out.println(new ActivityManager().loadItem("ZhangKunpeng")
 				.getID());
-
+		System.out.println(new ActivityManager().loadItem(4));
+		System.out.println(new ActivityManager().releaseItem(4));
+		System.out.println(new ActivityManager().submitItem(1, true, "excellent!"));
 	}
 
 	@SuppressWarnings("unchecked")
+
+	
 	public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
@@ -92,7 +96,7 @@ public class ActivityManager {
 			itemdb.setDate(item.getDate());
 			itemdb.setFormname(item.getFormname());
 			itemdb.setProjectid(item.getProjectID());
-			itemdb.setState(item.getState());
+			itemdb.setState(item.getState());//state:user;wait;ongoing;finish
 			itemdb.setStep(item.getStep());
 			itemdb.setUsername(item.getUsername());
 			s.saveOrUpdate(itemdb);
@@ -168,7 +172,7 @@ public class ActivityManager {
 
 		Session s = HibernateUtil.currentSession();
 		Item item = null;
-		long id=0;
+		long id = 0;
 
 		try {
 			HibernateUtil.beginTransaction();
@@ -196,7 +200,10 @@ public class ActivityManager {
 			HibernateUtil.commitTransaction();
 
 			for (Object obj : itemList) {
-				id = Long.parseLong(obj.toString());
+				if (obj==null)
+					id=0;
+				else
+					id = Long.parseLong(obj.toString());
 			}
 
 			if (id == 0)
@@ -210,5 +217,76 @@ public class ActivityManager {
 
 		return item;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean submitItem(long id, boolean result, String comment) {
+		boolean flag = false;
+		boolean finalStep = false;
+		Session s = HibernateUtil.currentSession();
+
+		try {
+			HibernateUtil.beginTransaction();
+			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
+			if (itemdb == null)
+				flag = false;
+			else {
+				itemdb.setComment(comment);
+				if (result == true) {
+					String formname = itemdb.getFormname();
+					int step = itemdb.getStep();
+
+					List listFormflow = s.createSQLQuery(
+							"select final from formflowdb "
+									+ "where formname='" + formname
+									+ "' and step=" + step).list();
+
+					for (Object obj : listFormflow) {
+						finalStep = (Boolean) obj;
+						flag = true;
+					}
+
+					if (flag == true) {
+						if (finalStep == true)
+							itemdb.setState("finish");
+						else {
+							itemdb.setState("wait");
+							itemdb.setStep(step + 1);
+						}
+					}
+				} 
+				else {
+					itemdb.setState("user");
+					flag = true;
+				}
+			}
+			s.update(itemdb);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException e) {
+			log.fatal(e);
+		}
+		HibernateUtil.closeSession();
+		return flag;
+	}
+	
+	public boolean releaseItem(long id){
+		Session s=HibernateUtil.currentSession();
+		boolean flag=false;
+		try{
+			HibernateUtil.beginTransaction();
+			Itemdb itemdb=(Itemdb)s.get(Itemdb.class, id);
+			if (itemdb!=null){
+				flag=true;
+				if (itemdb.getState().equals("ongoing")){
+					itemdb.setState("wait");
+					s.update(itemdb);
+				}
+			}
+			HibernateUtil.commitTransaction();
+		}
+		catch(HibernateException e){
+			log.fatal(e);
+		}
+		return flag;
 	}
 }

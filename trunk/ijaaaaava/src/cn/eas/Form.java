@@ -2,8 +2,8 @@ package cn.eas;
 import java.util.ArrayList;
 
 public class Form {
-	private ArrayList<String> flow=new ArrayList<String>();
-	private ArrayList<String> previous=new ArrayList<String>();
+	private ArrayList<String> flow;
+	private ArrayList<String> previous;
 	private String name;
 	private String content;
 	
