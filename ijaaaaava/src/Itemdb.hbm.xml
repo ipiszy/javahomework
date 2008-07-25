@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="cn.eas">
+	<class
+		name="Itemdb"
+		table="itemdb"
+	>
+		<meta attribute="sync-DAO">true</meta>
+		<id
+			name="Id"
+			type="long"
+			column="id"
+		>
+			<generator class="identity"/>
+
+		</id>
+
+		<property
+			name="Formname"
+			column="formname"
+			type="string"
+			not-null="true"
+			length="45"
+		/>
+		<property
+			name="Step"
+			column="step"
+			type="int"
+			not-null="true"
+			length="10"
+		/>
+		<!-- please tell Joe Hudson that the type 'ENUM' could not be resolved.. defaulting to java.lang.String -->
+		<property
+			name="State"
+			column="state"
+			type="java.lang.String"
+			not-null="true"
+			length="7"
+		/>
+		<property
+			name="Date"
+			column="date"
+			type="java.lang.String"
+			not-null="false"
+			length="19"
+		/>
+		<property
+			name="Projectid"
+			column="projectid"
+			type="long"
+			not-null="true"
+			length="20"
+		/>
+		<property
+			name="Username"
+			column="username"
+			type="string"
+			not-null="true"
+			length="45"
+		/>
+		<property
+			name="Comment"
+			column="comment"
+			type="string"
+			not-null="true"
+			length="1000"
+		/>
+		<property
+			name="Content"
+			column="content"
+			type="string"
+			not-null="true"
+		/>
+
+
+	</class>	
+</hibernate-mapping>
