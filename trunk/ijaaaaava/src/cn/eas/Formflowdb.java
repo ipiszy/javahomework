@@ -2,8 +2,6 @@ package cn.eas;
 
 import cn.eas.base.BaseFormflowdb;
 
-
-
 public class Formflowdb extends BaseFormflowdb {
 	private static final long serialVersionUID = 1L;
 

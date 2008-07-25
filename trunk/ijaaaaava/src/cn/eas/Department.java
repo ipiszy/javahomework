@@ -1,10 +1,35 @@
 package cn.eas;
 public class Department {
-	String name, workTime,affairs;
+	private String name, workTime,affairs;
 	
-	Department(String name, String workTime, String affairs){
+	public Department(String name, String workTime, String affairs){
 		this.name=name;
 		this.workTime=workTime;
 		this.affairs=affairs;
 	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public String getWorkTime(){
+		return this.workTime;
+	}
+	
+	public String getAffairs(){
+		return this.affairs;
+	}
+	
+	public void setName(String name){
+		this.name=name;
+	}
+	
+	public void setWorkTime(String workTime){
+		this.workTime=workTime;
+	}
+	
+	public void setAffairs(String affairs){
+		this.affairs=affairs;
+	}
+	
 }

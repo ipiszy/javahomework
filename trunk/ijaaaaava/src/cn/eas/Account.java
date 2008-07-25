@@ -14,27 +14,27 @@ public class Account {
 		this.password=password;
 	}
 	
-	String getName(){
+	public String getName(){
 		return this.name;
 	}
 	
-	String getType(){
+	public String getType(){
 		return this.type;
 	}
 	
-	long getID(){
+	public long getID(){
 		return this.id;
 	}
 	
-	void setName(String name){
+	public void setName(String name){
 		this.name=name;
 	}
 	
-	void setType(String type){
+	public void setType(String type){
 		this.type=type;
 	}
 	
-	void setID(long id){
+	public void setID(long id){
 		this.id=id;
 	}
 	
