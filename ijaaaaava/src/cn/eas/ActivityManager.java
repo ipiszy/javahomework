@@ -50,16 +50,16 @@ public class ActivityManager {
 		Session s=HibernateUtil.currentSession();
 		HibernateUtil.beginTransaction();
 		Itemdb itemdb=new Itemdb();
-		if (item.id!=-1)//如何判断这个id是否有效？
-			itemdb.setId(item.id);
-		itemdb.setComment(item.comment);
-		itemdb.setContent(item.content);
-		itemdb.setDate(item.date);
-		itemdb.setFormname(item.formname);
-		itemdb.setProjectid(item.projectID);
-		itemdb.setState(item.state);
-		itemdb.setStep(item.step);
-		itemdb.setUsername(item.username);
+		if (item.getID()!=-1)//如何判断这个id是否有效？
+			itemdb.setId(item.getID());
+		itemdb.setComment(item.getComment());
+		itemdb.setContent(item.getContent());
+		itemdb.setDate(item.getDate());
+		itemdb.setFormname(item.getFormname());
+		itemdb.setProjectid(item.getProjectID());
+		itemdb.setState(item.getState());
+		itemdb.setStep(item.getStep());
+		itemdb.setUsername(item.getUsername());
 		s.saveOrUpdate(itemdb);
 		HibernateUtil.commitTransaction();
 		return true;

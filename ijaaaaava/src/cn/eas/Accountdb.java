@@ -1,8 +1,6 @@
 package cn.eas;
 
 import cn.eas.base.BaseAccountdb;
-import cn.eas.dao.AccountdbDAO;
-import cn.eas.dao._RootDAO;
 
 public class Accountdb extends BaseAccountdb {
 	private static final long serialVersionUID = 1L;
