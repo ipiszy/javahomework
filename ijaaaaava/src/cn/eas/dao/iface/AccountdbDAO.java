@@ -47,8 +47,5 @@ public interface AccountdbDAO {
 	 * @param accountdb the instance to be removed
 	 */
 	public void delete(cn.eas.Accountdb accountdb);
-	
-	public String queryLogin(String username, String password);
-
 
 }
