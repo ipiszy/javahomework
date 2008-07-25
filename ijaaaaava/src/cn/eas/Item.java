@@ -6,6 +6,8 @@ public class Item {
 	private int step;
 	private long projectID;
 	
+	public Item(){
+	}
 	
 	public Item(String formname, String state, String content){
 		this.formname=formname;
