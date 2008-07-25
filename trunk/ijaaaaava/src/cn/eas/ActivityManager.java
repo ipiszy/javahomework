@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import cn.eas.dao.HibernateUtil;
 import cn.eas.dao.ItemdbDAO;
@@ -17,11 +16,12 @@ public class ActivityManager {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(new ActivityManager().queryCurrentApplicantInfo("ipiszy"));
-		System.out.println(new ActivityManager().queryItem(1));
-		new ActivityManager().saveItem(new Item(13,"lalala",2,"wait","1988-12-18",12,"ipiszy","",""));
+		System.out.println(ActivityManager.queryCurrentApplicantInfo("ipiszy"));
+		System.out.println(ActivityManager.queryItem(1));
+		ActivityManager.saveItem(new Item(13,"lalala",2,"wait","1988-12-18",12,"ipiszy","",""));
 
 	}
+	@SuppressWarnings("unchecked")
 	public static ArrayList<ItemInfo> queryCurrentApplicantInfo(String username){
 		Session s=HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList=new ArrayList<ItemInfo>();
@@ -65,6 +65,7 @@ public class ActivityManager {
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static ArrayList<ItemInfo> queryCurrentRecordInfo(String department){
 		Session s=HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList=new ArrayList<ItemInfo>();
