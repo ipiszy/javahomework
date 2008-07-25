@@ -1,11 +1,8 @@
 package cn.eas;
 
 public class ItemInfo {
-	long id;
-	String formname;
-	String state;
-	String date;
-
+	private long id;
+	private String formname,state,date;
 	
 	public ItemInfo(long id,String formname, String state, String date){
 		this.id=id;
@@ -16,5 +13,37 @@ public class ItemInfo {
 	
 	public String toString(){
 		return("id:"+id+"\tformname:"+formname+"\tstate:"+state+"\tdate:"+date);
+	}
+	
+	public long getID(){
+		return this.id;
+	}
+	
+	public String getFormname(){
+		return this.formname;
+	}
+	
+	public String getState(){
+		return this.state;
+	}
+	
+	public String getDate(){
+		return this.date;
+	}
+	
+	public void setID(long id){
+		this.id=id;
+	}
+	
+	public void setFormname(String formname){
+		this.formname=formname;
+	}
+	
+	public void setState(String state){
+		this.state=state;
+	}
+	
+	public void setDate(String date){
+		this.date=date;
 	}
 }

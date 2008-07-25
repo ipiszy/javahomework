@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/hibernate3.jar" sourcepath="D:/Java/hibernate-3.2/src"/>
-	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/ant-1.6.5.jar"/>
+	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/ant-1.6.5.jar" sourcepath="D:/Java/hibernate-3.2/src/org"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/ant-antlr-1.6.5.jar"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/ant-junit-1.6.5.jar"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/ant-launcher-1.6.5.jar"/>
@@ -16,7 +16,7 @@
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/checkstyle-all.jar"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/cleanimports.jar"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/commons-collections-2.1.1.jar"/>
-	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/commons-logging-1.0.4.jar" sourcepath="D:/Java/hibernate-3.2/src/org/hibernate"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/concurrent-1.3.2.jar"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="D:/Java/hibernate-3.2/lib/ehcache-1.2.3.jar"/>
