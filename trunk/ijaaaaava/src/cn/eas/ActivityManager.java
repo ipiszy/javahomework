@@ -22,7 +22,7 @@ public class ActivityManager {
 		new ActivityManager().saveItem(new Item(13,"lalala",2,"wait","1988-12-18",12,"ipiszy","",""));
 
 	}
-	public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username){
+	public static ArrayList<ItemInfo> queryCurrentApplicantInfo(String username){
 		Session s=HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList=new ArrayList<ItemInfo>();
 		List itemList=s.createSQLQuery("SELECT id, formname, state, date from itemdb where username='"+username+"'").list();
@@ -37,7 +37,7 @@ public class ActivityManager {
 		return itemInfoList;
 	}
 	
-	public Item queryItem(long id){
+	public static Item queryItem(long id){
 		_RootDAO.initialize();
 		Itemdb itemdb=new ItemdbDAO().get(id);
 		return (new Item(itemdb.getId(),itemdb.getFormname(),itemdb.getStep(),
@@ -45,7 +45,7 @@ public class ActivityManager {
 				itemdb.getUsername(),itemdb.getComment(),itemdb.getContent()));
 	}
 	
-	public boolean saveItem(Item item){
+	public static boolean saveItem(Item item){
 		
 		Session s=HibernateUtil.currentSession();
 		HibernateUtil.beginTransaction();
@@ -65,7 +65,7 @@ public class ActivityManager {
 		return true;
 	}
 	
-	public ArrayList<ItemInfo> queryCurrentRecordInfo(String department){
+	public static ArrayList<ItemInfo> queryCurrentRecordInfo(String department){
 		Session s=HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList=new ArrayList<ItemInfo>();
 		List itemList=s.createSQLQuery("SELECT itemdb.id,itemdb.formname,state,date " +
@@ -83,7 +83,7 @@ public class ActivityManager {
 		return itemInfoList;
 	}
 
-	public Item loadItem(long id){
+	public static Item loadItem(long id){
 		_RootDAO.initialize();
 		Itemdb itemdb=new ItemdbDAO().get(id);
 		Session s=HibernateUtil.currentSession();
