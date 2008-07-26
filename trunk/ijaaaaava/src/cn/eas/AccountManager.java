@@ -10,6 +10,13 @@ import org.hibernate.Session;
 
 public class AccountManager {
 	private static Log log = LogFactory.getLog(AccountManager.class);
+	
+	public static void main(String[] args){
+		System.out.println(new AccountManager().selectAll());
+		System.out.println(new AccountManager().queryAccount("ipiszy"));
+		System.out.println(new AccountManager().delAccount("ipiszy"));
+		System.out.println(new AccountManager().addAccount(new Account("ipiszy","Applicant","ipiszy","ipiszy")));
+	}
 
 	public String queryLogin(String username, String password) {
 		Session s = HibernateUtil.currentSession();
@@ -50,7 +57,7 @@ public class AccountManager {
 			accountdb.setType(account.getType());
 
 			HibernateUtil.beginTransaction();
-			s.save(account);
+			s.saveOrUpdate(accountdb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -90,7 +97,7 @@ public class AccountManager {
 		Session s = HibernateUtil.currentSession();
 		try {
 			HibernateUtil.beginTransaction();
-			Accountdb accountdb = (Accountdb) s.get(Account.class, username);
+			Accountdb accountdb = (Accountdb) s.get(Accountdb.class, username);
 			HibernateUtil.commitTransaction();
 			accountdb.setDisabled(true);
 			HibernateUtil.beginTransaction();
@@ -149,7 +156,7 @@ public class AccountManager {
 				username=((Object[])obj)[0].toString();
 				name=((Object[])obj)[1].toString();
 				type=((Object[])obj)[2].toString();
-				disabled=(Boolean)((Object[])obj)[2];
+				disabled=Boolean.parseBoolean(((Object[])obj)[2].toString());
 				if (disabled==false)
 					accountInfoList.add(new AccountInfo(username,name,type));
 			}
@@ -171,7 +178,16 @@ public class AccountManager {
 		try{
 			HibernateUtil.beginTransaction();
 			Accountdb accountdb = (Accountdb)s.get(Accountdb.class, username);
-			if ((accountdb!=null) && (a))
+			HibernateUtil.commitTransaction();
+			
+			if ((accountdb!=null) && (accountdb.isDisabled()==false))
+				accountinfo=new AccountInfo(accountdb.getId(),accountdb.getName(),accountdb.getType());
 		}
+		catch (HibernateException e){
+			e.printStackTrace();
+			log.fatal(e);
+		}
+		HibernateUtil.closeSession();
+		return accountinfo;
 	}
 }
