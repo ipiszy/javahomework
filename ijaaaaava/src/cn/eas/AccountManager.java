@@ -1,5 +1,8 @@
 package cn.eas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -129,5 +132,46 @@ public class AccountManager {
 		HibernateUtil.closeSession();
 
 		return department;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<AccountInfo> selectAll(){
+		Session s = HibernateUtil.currentSession();
+		ArrayList<AccountInfo> accountInfoList=new ArrayList<AccountInfo>();
+		try{
+			HibernateUtil.beginTransaction();
+			List accountList=s.createSQLQuery("select username,name,type,disabled from accountdb").list();
+			HibernateUtil.commitTransaction();
+			String username,name,type;
+			boolean disabled;
+			
+			for (Object obj:accountList){
+				username=((Object[])obj)[0].toString();
+				name=((Object[])obj)[1].toString();
+				type=((Object[])obj)[2].toString();
+				disabled=(Boolean)((Object[])obj)[2];
+				if (disabled==false)
+					accountInfoList.add(new AccountInfo(username,name,type));
+			}
+		}
+		catch (HibernateException e){
+			e.printStackTrace();
+			log.fatal(e);
+		}
+		
+		HibernateUtil.closeSession();
+		
+		return accountInfoList;
+	}
+	
+	public AccountInfo queryAccount (String username){
+		Session s = HibernateUtil.currentSession();
+		AccountInfo accountinfo = null;
+		
+		try{
+			HibernateUtil.beginTransaction();
+			Accountdb accountdb = (Accountdb)s.get(Accountdb.class, username);
+			if ((accountdb!=null) && (a))
+		}
 	}
 }
