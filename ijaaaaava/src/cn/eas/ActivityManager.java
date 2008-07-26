@@ -264,6 +264,8 @@ public class ActivityManager {
 		try {
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
+			HibernateUtil.commitTransaction();
+			
 			if (itemdb == null)
 				flag = false;
 			else {
@@ -272,10 +274,12 @@ public class ActivityManager {
 					String formname = itemdb.getFormname();
 					int step = itemdb.getStep();
 
+					HibernateUtil.beginTransaction();
 					List listFormflow = s.createSQLQuery(
 							"select final from formflowdb "
 									+ "where formname='" + formname
 									+ "' and step=" + step).list();
+					HibernateUtil.commitTransaction();
 
 					for (Object obj : listFormflow) {
 						finalStep = (Boolean) obj;
@@ -295,6 +299,8 @@ public class ActivityManager {
 					flag = true;
 				}
 			}
+			
+			HibernateUtil.beginTransaction();
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
@@ -311,14 +317,18 @@ public class ActivityManager {
 		try {
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
+			HibernateUtil.commitTransaction();
+			
 			if (itemdb != null) {
 				flag = true;
 				if (itemdb.getState().equals("ongoing")) {
 					itemdb.setState("wait");
+					HibernateUtil.beginTransaction();
 					s.update(itemdb);
+					HibernateUtil.commitTransaction();
 				}
 			}
-			HibernateUtil.commitTransaction();
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
