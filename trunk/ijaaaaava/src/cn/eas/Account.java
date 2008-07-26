@@ -3,14 +3,14 @@ package cn.eas;
 public class Account {
 	private String name;
 	private String type;
-	private long id;
+	private String username;
 	@SuppressWarnings("unused")
 	private String password;
 	
-	Account(String name, String type, long id, String password){
+	Account(String name, String type, String username, String password){
 		this.name=name;
 		this.type=type;
-		this.id=id;
+		this.username=username;
 		this.password=password;
 	}
 	
@@ -30,12 +30,20 @@ public class Account {
 		this.type=type;
 	}
 	
-	public long getId() {
-		return id;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }
