@@ -79,4 +79,40 @@ public class FormManager {
 		HibernateUtil.closeSession();
 		return form;
 	}
+	
+	public boolean addForm(Form form){
+		Session s = HibernateUtil.currentSession();
+		boolean flag=false;
+		
+		try {
+			HibernateUtil.beginTransaction();
+			Formdb formdb = new Formdb();
+			
+			formdb.setId(form.getName());
+			formdb.setInfo(form.getContent());
+			s.save(formdb);
+			
+			Formflowdb formflowdb;
+			
+			for (String department:form.getFlow()){
+				
+			}
+			form.setContent(formdb.getInfo());
+			form.setName(name);
+
+			List formflowList = s.createSQLQuery(
+					"select department from formflowdb " + "where formname='"
+							+ name + "' order by step").list();
+			ArrayList<String> departments = new ArrayList<String>();
+			for (Object obj : formflowList) {
+				departments.add(obj.toString());
+			}
+			form.setFlow(departments);
+
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException e) {
+			log.fatal(e);
+		}
+		HibernateUtil.closeSession();
+	}
 }
