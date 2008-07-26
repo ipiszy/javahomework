@@ -93,26 +93,31 @@ public class FormManager {
 			s.save(formdb);
 			
 			Formflowdb formflowdb;
+			int step=0;
+			int size=form.getFlow().size();
 			
 			for (String department:form.getFlow()){
+				step++;
+				formflowdb=new Formflowdb();
 				
+				formflowdb.setDepartment(department);
+				formflowdb.setFormname(form.getName());
+				formflowdb.setStep(step);
+				if (step==size)
+					formflowdb.setFinal(true);
+				else
+					formflowdb.setFinal(false);
+				
+				s.save(formflowdb);
 			}
-			form.setContent(formdb.getInfo());
-			form.setName(name);
-
-			List formflowList = s.createSQLQuery(
-					"select department from formflowdb " + "where formname='"
-							+ name + "' order by step").list();
-			ArrayList<String> departments = new ArrayList<String>();
-			for (Object obj : formflowList) {
-				departments.add(obj.toString());
-			}
-			form.setFlow(departments);
-
+			
 			HibernateUtil.commitTransaction();
+			flag=true;
 		} catch (HibernateException e) {
 			log.fatal(e);
+			flag=false;
 		}
 		HibernateUtil.closeSession();
+		return flag;
 	}
 }
