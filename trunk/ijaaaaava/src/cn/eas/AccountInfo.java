@@ -3,14 +3,13 @@ package cn.eas;
 public class AccountInfo {
 	private String name;
 	private String type;
-	private String username;
-	 
+	private String username; 
 	
 	public AccountInfo(){
 		
 	}
 	
-	public AccountInfo(String name, String type, String username){
+	public AccountInfo(String username, String name, String type){
 		this.name=name;
 		this.type=type;
 		this.username=username;
@@ -38,6 +37,10 @@ public class AccountInfo {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String toString(){
+		return ("username:"+username+"\tname:"+name+"\ttype:"+type);
 	}
 
 }
