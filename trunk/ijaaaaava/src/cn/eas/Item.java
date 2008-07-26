@@ -4,7 +4,7 @@ public class Item {
 	private long id;
 	private String formname,state,date,username,comment,content;
 	private int step;
-	private long projectID;
+	private long projectId;
 	
 	public Item(){
 	}
@@ -23,14 +23,14 @@ public class Item {
 		this.step=step;
 		this.state=state;
 		this.date=date;
-		this.projectID=projectID;
+		this.projectId=projectID;
 		this.username=username;
 		this.comment=comment;
 		this.content=content;
 	}
 	
 	public String toString(){
-		return ("id:"+id+"\tformname:"+formname+"\tstep:"+step+"\tstate:"+state+"\tdate:"+date+"\tprojectID:"+projectID+"\tusername:"+username+"\tcomment:"+comment+"\tcontent:"+content);
+		return ("id:"+id+"\tformname:"+formname+"\tstep:"+step+"\tstate:"+state+"\tdate:"+date+"\tprojectID:"+projectId+"\tusername:"+username+"\tcomment:"+comment+"\tcontent:"+content);
 	}
 	
 	public void setFormname(String formname){
@@ -49,8 +49,8 @@ public class Item {
 		this.date=date;
 	}
 	
-	public void setProjectID(long projectID){
-		this.projectID=projectID;
+	public void setProjectId(long projectID){
+		this.projectId=projectID;
 	}
 	
 	public void setUsername(String username){
@@ -80,8 +80,8 @@ public class Item {
 		return this.date;
 	}
 	
-	public long getProjectID(){
-		return this.projectID;
+	public long getProjectId(){
+		return this.projectId;
 	}
 	
 	public String getUsername(){
