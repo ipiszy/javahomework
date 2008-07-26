@@ -22,10 +22,6 @@ public class Account {
 		return this.type;
 	}
 	
-	public long getID(){
-		return this.id;
-	}
-	
 	public void setName(String name){
 		this.name=name;
 	}
@@ -34,8 +30,12 @@ public class Account {
 		this.type=type;
 	}
 	
-	public void setID(long id){
-		this.id=id;
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 }

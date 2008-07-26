@@ -33,10 +33,6 @@ public class Item {
 		return ("id:"+id+"\tformname:"+formname+"\tstep:"+step+"\tstate:"+state+"\tdate:"+date+"\tprojectID:"+projectID+"\tusername:"+username+"\tcomment:"+comment+"\tcontent:"+content);
 	}
 	
-	public void setID(long id){
-		this.id=id;
-	}
-	
 	public void setFormname(String formname){
 		this.formname=formname;
 	}
@@ -68,10 +64,6 @@ public class Item {
 	public void setContent(String content){
 		this.content=content;
 	}
-	public long getID(){
-		return this.id;
-	}
-	
 	public String getFormname(){
 		return this.formname;
 	}
@@ -102,5 +94,13 @@ public class Item {
 	
 	public String getContent(){
 		return this.content;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

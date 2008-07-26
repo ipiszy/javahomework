@@ -22,7 +22,7 @@ public class ActivityManager {
 		new ActivityManager().saveItem(new Item(13, "lalala", 2, "wait",
 				"1988-12-18", 12, "ipiszy", "", ""));
 		System.out.println(new ActivityManager().loadItem("ZhangKunpeng")
-				.getID());
+				.getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
 		System.out.println(new ActivityManager().submitItem(1, true, "excellent!"));
@@ -89,8 +89,8 @@ public class ActivityManager {
 
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = new Itemdb();
-			if (item.getID() != -1)// 如何判断这个id是否有效？
-				itemdb.setId(item.getID());
+			if (item.getId() != -1)// 如何判断这个id是否有效？
+				itemdb.setId(item.getId());
 			itemdb.setComment(item.getComment());
 			itemdb.setContent(item.getContent());
 			itemdb.setDate(item.getDate());
