@@ -39,22 +39,26 @@ public class FormManager {
 		try {
 			HibernateUtil.beginTransaction();
 			List formList = s.createSQLQuery("select name from formdb").list();
+			HibernateUtil.commitTransaction();
+			
 			for (Object obj : formList) {
 				forms.add(new FormInfo(obj.toString()));
 			}
 
 			for (FormInfo forminfo : forms) {
+				HibernateUtil.beginTransaction();
 				List formflowList = s.createSQLQuery(
 						"select department from formflowdb "
 								+ "where formname='" + forminfo.getName()
 								+ "' order by step").list();
+				HibernateUtil.commitTransaction();
+				
 				ArrayList<String> departments = new ArrayList<String>();
 				for (Object obj : formflowList) {
 					departments.add(obj.toString());
 				}
 				forminfo.setFlow(departments);
 			}
-			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
@@ -69,21 +73,22 @@ public class FormManager {
 		Form form = new Form();
 
 		try {
-			HibernateUtil.beginTransaction();
 			Formdb formdb = (Formdb) s.get(Formdb.class, name);
 			form.setContent(formdb.getInfo());
 			form.setName(name);
 
+			HibernateUtil.beginTransaction();
 			List formflowList = s.createSQLQuery(
 					"select department from formflowdb " + "where formname='"
 							+ name + "' order by step").list();
+			HibernateUtil.commitTransaction();
+			
 			ArrayList<String> departments = new ArrayList<String>();
 			for (Object obj : formflowList) {
 				departments.add(obj.toString());
 			}
 			form.setFlow(departments);
 
-			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
@@ -97,36 +102,19 @@ public class FormManager {
 		boolean flag=false;
 		
 		try {
-			HibernateUtil.beginTransaction();
 			Formdb formdb = new Formdb();
 			ArrayList<String> flow=form.getFlow();
 			String name=form.getName();
 			
 			formdb.setId(form.getName());
 			formdb.setInfo(form.getContent());
-			s.save(formdb);
 			
-			Formflowdb formflowdb;
-			
-			int step=0;
-			int size=flow.size();
-			
-			for (String department:flow){
-				step++;
-				formflowdb=new Formflowdb();
-				
-				formflowdb.setDepartment(department);
-				formflowdb.setFormname(name);
-				formflowdb.setStep(step);
-				if (step==size)
-					formflowdb.setFinal(true);
-				else
-					formflowdb.setFinal(false);
-				
-				s.save(formflowdb);
-			}
-			
+			HibernateUtil.beginTransaction();
+			s.saveOrUpdate(formdb);
 			HibernateUtil.commitTransaction();
+			
+			addFormflow(flow,name,s);
+			
 			flag=true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -151,34 +139,12 @@ public class FormManager {
 			Formdb formdb = (Formdb) s.get(Formdb.class, form.getName());
 			formdb.setInfo(form.getContent());
 			s.update(formdb);
-			
-			Formflowdb formflowdb;
-			
-			List formflowList=s.createSQLQuery("select id from formflowdb where formname='"+name+"'").list();	
-			for (Object obj:formflowList){
-				formflowdb=(Formflowdb)s.get(Formflowdb.class, Long.parseLong(obj.toString()));
-				s.delete(formflowdb);
-			}
-						
-			int step=0;
-			int size=flow.size();
-			
-			for (String department:flow){
-				step++;
-				formflowdb=new Formflowdb();
-				
-				formflowdb.setDepartment(department);
-				formflowdb.setFormname(name);
-				formflowdb.setStep(step);
-				if (step==size)
-					formflowdb.setFinal(true);
-				else
-					formflowdb.setFinal(false);
-				
-				s.save(formflowdb);
-			}	
-			
 			HibernateUtil.commitTransaction();
+			
+			removeFormflow(name,s);
+			
+			addFormflow(flow,name,s);
+			
 			flag=true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -189,14 +155,41 @@ public class FormManager {
 		return flag;
 	}
 	
-	/*private void addFormflow(ArrayList<String> flow, String name, Session s) throws HibernateException{
-		HibernateUtil.beginTransaction();
+	private void addFormflow(ArrayList<String> flow, String name, Session s) throws HibernateException{
 		
-		HibernateUtil.commitTransaction();
-	}*/
+		Formflowdb formflowdb;
+		
+		int step=0;
+		int size=flow.size();
+		
+		for (String department:flow){
+			HibernateUtil.beginTransaction();
+			step++;
+			formflowdb=new Formflowdb();
+			
+			formflowdb.setDepartment(department);
+			formflowdb.setFormname(name);
+			formflowdb.setStep(step);
+			if (step==size)
+				formflowdb.setFinal(true);
+			else
+				formflowdb.setFinal(false);
+			
+			s.save(formflowdb);
+			HibernateUtil.commitTransaction();
+		}
+	}
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	private void removeFormflow(String name, Session s) throws HibernateException{
+		Formflowdb formflowdb;
 		
-	}*/
+		List formflowList=s.createSQLQuery("select id from formflowdb where formname='"+name+"'").list();	
+		for (Object obj:formflowList){
+			HibernateUtil.beginTransaction();
+			formflowdb=(Formflowdb)s.get(Formflowdb.class, Long.parseLong(obj.toString()));
+			s.delete(formflowdb);
+			HibernateUtil.commitTransaction();
+		}
+	}
 }

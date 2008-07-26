@@ -23,6 +23,10 @@
 		<property name="hibernate.transaction.factory_class">
 			org.hibernate.transaction.JDBCTransactionFactory
 		</property>
-		<mapping resource="hibernate.cfg.xml" />
+		<mapping resource="Accountdb.hbm.xml" />
+		<mapping resource="Formdb.hbm.xml" />
+		<mapping resource="Formflowdb.hbm.xml" />
+		<mapping resource="Itemdb.hbm.xml" />
+		<mapping resource="Projectdb.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

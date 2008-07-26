@@ -37,6 +37,7 @@ public class HibernateUtil {
 				tLocalsess.set(session);
 			}
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			logger.error(e);
 		}
 		return session;
@@ -51,6 +52,7 @@ public class HibernateUtil {
 				session.close();
 			}
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			logger.error(e);
 		}
 	}
@@ -65,6 +67,7 @@ public class HibernateUtil {
 				tLocaltx.set(tx);
 			}
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			logger.error(e);
 		}
 	}
@@ -78,6 +81,7 @@ public class HibernateUtil {
 			tLocaltx.set(null);
 			System.out.println("commit tx");
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			logger.error(e);
 			HibernateUtil.rollbackTransaction();
 		}
