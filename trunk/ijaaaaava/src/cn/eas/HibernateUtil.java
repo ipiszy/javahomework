@@ -89,6 +89,7 @@ public class HibernateUtil {
 			if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack())
 				tx.rollback();
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			logger.error(e);
 		}
 	}

@@ -2,8 +2,6 @@ package cn.eas.base;
 
 import java.io.Serializable;
 
-import cn.eas.*;
-
 
 /**
  * This is an object that contains data related to the accountdb table.
