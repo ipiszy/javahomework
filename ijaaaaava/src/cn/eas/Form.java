@@ -7,6 +7,9 @@ public class Form {
 	private String name;
 	private String content;
 	
+	public Form (){
+		
+	}
 	public Form(ArrayList<String> flow, ArrayList<String> previous, String name, String content){
 		this.flow=flow;
 		this.previous=previous;
