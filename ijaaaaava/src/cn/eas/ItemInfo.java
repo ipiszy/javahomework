@@ -15,10 +15,6 @@ public class ItemInfo {
 		return("id:"+id+"\tformname:"+formname+"\tstate:"+state+"\tdate:"+date);
 	}
 	
-	public long getID(){
-		return this.id;
-	}
-	
 	public String getFormname(){
 		return this.formname;
 	}
@@ -31,10 +27,6 @@ public class ItemInfo {
 		return this.date;
 	}
 	
-	public void setID(long id){
-		this.id=id;
-	}
-	
 	public void setFormname(String formname){
 		this.formname=formname;
 	}
@@ -45,5 +37,13 @@ public class ItemInfo {
 	
 	public void setDate(String date){
 		this.date=date;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }
