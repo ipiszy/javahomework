@@ -7,7 +7,11 @@ public class Account {
 	@SuppressWarnings("unused")
 	private String password;
 	
-	Account(String name, String type, String username, String password){
+	public Account(){
+		
+	}
+	
+	public Account(String name, String type, String username, String password){
 		this.name=name;
 		this.type=type;
 		this.username=username;
