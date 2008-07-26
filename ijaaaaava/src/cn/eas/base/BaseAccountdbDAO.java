@@ -2,8 +2,6 @@ package cn.eas.base;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-
-import cn.eas.*;
 import cn.eas.dao.iface.AccountdbDAO;
 import org.hibernate.criterion.Order;
 

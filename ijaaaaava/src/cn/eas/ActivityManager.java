@@ -21,12 +21,13 @@ public class ActivityManager {
 		System.out.println(new ActivityManager().queryItem(1));
 		new ActivityManager().addItem(new Item(13, "lalala", 2, "wait",
 				"1988-12-18", 12, "ipiszy", "", ""));
-		System.out.println(new ActivityManager().loadItem("ZhangKunpeng")
+		System.out.println(new ActivityManager().loadItem("aay")
 				.getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
 		System.out.println(new ActivityManager().submitItem(1, true,
 				"excellent!"));
+//		System.out.println(new ActivityManager().addItem(item))
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,6 +51,7 @@ public class ActivityManager {
 				itemInfoList.add(new ItemInfo(id, formname, state, date));
 			}
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 		HibernateUtil.closeSession();
@@ -72,6 +74,7 @@ public class ActivityManager {
 						.getComment(), itemdb.getContent());
 
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 
@@ -94,10 +97,14 @@ public class ActivityManager {
 			itemdb.setState(item.getState());// state:user;wait;ongoing;finish
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
+			itemdb.setComment("");
+			itemdb.setContent("");
+			
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
 		}
@@ -122,10 +129,13 @@ public class ActivityManager {
 			itemdb.setState(item.getState());// state:user;wait;ongoing;finish
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
+			itemdb.setComment("");
+			itemdb.setContent("");
 			s.save(itemdb);
 			HibernateUtil.commitTransaction();
 
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
 		}
@@ -160,6 +170,7 @@ public class ActivityManager {
 			}
 
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 
@@ -184,6 +195,7 @@ public class ActivityManager {
 					.getProjectid(), itemdb.getUsername(), itemdb.getComment(),
 					itemdb.getContent());
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 		HibernateUtil.closeSession();
@@ -235,6 +247,7 @@ public class ActivityManager {
 				item = loadItem(id);
 
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 
@@ -285,6 +298,7 @@ public class ActivityManager {
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 		HibernateUtil.closeSession();
@@ -306,6 +320,7 @@ public class ActivityManager {
 			}
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
+			e.printStackTrace();
 			log.fatal(e);
 		}
 		return flag;
