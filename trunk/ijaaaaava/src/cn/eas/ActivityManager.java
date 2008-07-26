@@ -87,7 +87,6 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = new Itemdb();
 			itemdb.setId(item.getId());
-			itemdb.setComment(item.getComment());
 			itemdb.setContent(item.getContent());
 			itemdb.setDate(item.getDate());
 			itemdb.setFormname(item.getFormname());
@@ -117,7 +116,6 @@ public class ActivityManager {
 
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = new Itemdb();
-			itemdb.setComment(item.getComment());
 			itemdb.setContent(item.getContent());
 			itemdb.setFormname(item.getFormname());
 			itemdb.setProjectid(item.getProjectId());
