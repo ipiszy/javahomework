@@ -32,6 +32,9 @@ public class AccountManager {
 		}
 		HibernateUtil.closeSession();
 		return returnString;
+		
+		
+		
 	}
 
 }
