@@ -90,6 +90,9 @@ public class AccountManager {
 			Accountdb accountdb = (Accountdb) s.get(Account.class, username);
 			HibernateUtil.commitTransaction();
 			accountdb.setDisabled(true);
+			HibernateUtil.beginTransaction();
+			s.update(accountdb);
+			HibernateUtil.commitTransaction();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
