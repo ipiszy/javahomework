@@ -257,7 +257,7 @@ public class ActivityManager {
 
 	@SuppressWarnings("unchecked")
 	public boolean submitItem(long id, boolean result, String comment) {
-		boolean flag = false;
+		boolean flag = true;
 		boolean finalStep = false;
 		Session s = HibernateUtil.currentSession();
 
@@ -306,6 +306,7 @@ public class ActivityManager {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
+			flag=false;
 		}
 		HibernateUtil.closeSession();
 		return flag;
@@ -313,7 +314,7 @@ public class ActivityManager {
 
 	public boolean releaseItem(long id) {
 		Session s = HibernateUtil.currentSession();
-		boolean flag = false;
+		boolean flag = true;
 		try {
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
@@ -332,6 +333,7 @@ public class ActivityManager {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
+			flag=false;
 		}
 		return flag;
 	}

@@ -32,9 +32,93 @@ public class AccountManager {
 		}
 		HibernateUtil.closeSession();
 		return returnString;
-		
-		
-		
+
 	}
 
+	public boolean addAccount(Account account) {
+		boolean flag = true;
+		Session s = HibernateUtil.currentSession();
+		try {
+			Accountdb accountdb = new Accountdb();
+			accountdb.setDisabled(false);
+			accountdb.setId(account.getUsername());
+			accountdb.setName(account.getName());
+			accountdb.setPassword(account.getPassword());
+			accountdb.setType(account.getType());
+
+			HibernateUtil.beginTransaction();
+			s.save(account);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			log.fatal(e);
+			flag = false;
+		}
+
+		HibernateUtil.closeSession();
+		return flag;
+	}
+
+	public boolean addAccount(Account account, String department) {
+		Session s = HibernateUtil.currentSession();
+		boolean flag;
+		flag = addAccount(account);
+
+		try {
+			HibernateUtil.beginTransaction();
+
+			Managerinfodb managerinfodb = new Managerinfodb();
+			managerinfodb.setDepartment(department);
+			managerinfodb.setId(account.getName());
+			s.save(managerinfodb);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			log.fatal(e);
+			flag = false;
+		}
+
+		HibernateUtil.closeSession();
+		return flag;
+	}
+
+	public boolean delAccount(Account account) {
+		boolean flag = true;
+		Session s = HibernateUtil.currentSession();
+		try {
+			HibernateUtil.beginTransaction();
+			Accountdb accountdb = (Accountdb) s.get(Account.class, account
+					.getName());
+			s.delete(accountdb);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			log.fatal(e);
+			flag = false;
+		}
+
+		HibernateUtil.closeSession();
+		return flag;
+	}
+
+	public boolean delAccount(Account account, String department) {
+		Session s = HibernateUtil.currentSession();
+		boolean flag;
+		flag = delAccount(account);
+
+		try {
+			HibernateUtil.beginTransaction();
+			Managerinfodb managerinfodb = (Managerinfodb) s.get(
+					Managerinfodb.class, account.getName());
+			s.delete(managerinfodb);
+			HibernateUtil.commitTransaction();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			log.fatal(e);
+			flag = false;
+		}
+
+		HibernateUtil.closeSession();
+		return flag;
+	}
 }

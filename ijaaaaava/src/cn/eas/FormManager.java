@@ -103,7 +103,7 @@ public class FormManager {
 
 	public boolean addForm(Form form) {
 		Session s = HibernateUtil.currentSession();
-		boolean flag = false;
+		boolean flag = true;
 
 		try {
 			Formdb formdb = new Formdb();
@@ -132,7 +132,7 @@ public class FormManager {
 	@SuppressWarnings("unchecked")
 	public boolean editForm(Form form) {
 		Session s = HibernateUtil.currentSession();
-		boolean flag = false;
+		boolean flag = true;
 
 		ArrayList<String> flow = form.getFlow();
 		String name = form.getName();
@@ -161,7 +161,7 @@ public class FormManager {
 
 	public boolean deleteForm(String name) {
 		Session s = HibernateUtil.currentSession();
-		boolean flag = false;
+		boolean flag = true;
 
 		try {
 			HibernateUtil.beginTransaction();
@@ -178,6 +178,7 @@ public class FormManager {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
+			flag=false;
 		}
 
 		return flag;
