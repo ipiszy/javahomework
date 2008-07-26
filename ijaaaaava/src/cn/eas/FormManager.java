@@ -17,6 +17,13 @@ public class FormManager {
 			System.out.println(forminfo.getFlow());
 		}
 		System.out.println(new FormManager().queryForm("交换生申请表").getContent());
+		ArrayList<String> flow=new ArrayList<String>();
+		
+		flow.add("东20楼306");
+		flow.add("东20楼大阿姨");
+		flow.add("东20楼全体女生");
+		
+		System.out.println(new FormManager().addForm(new Form(flow,null,"进东20楼","进东20楼申请书--泣血")));
 	}
 
 	private static Log log = LogFactory.getLog(FormManager.class);
