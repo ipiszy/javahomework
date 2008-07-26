@@ -121,4 +121,31 @@ public class AccountManager {
 		HibernateUtil.closeSession();
 		return flag;
 	}
+
+	public String queryDepartment(String username) {
+		String department=null;
+
+		Session s = HibernateUtil.currentSession();
+		try {
+			HibernateUtil.beginTransaction();
+
+			Managerinfodb managerinfodb = (Managerinfodb) s.get(
+					Managerinfodb.class, username);
+
+			HibernateUtil.commitTransaction();
+
+			if (managerinfodb != null)
+				department = managerinfodb.getDepartment();
+			else
+				department = null;
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			log.fatal(e);
+		}
+
+		HibernateUtil.closeSession();
+
+		return department;
+	}
 }
