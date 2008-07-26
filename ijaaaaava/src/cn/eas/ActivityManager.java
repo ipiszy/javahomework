@@ -19,18 +19,17 @@ public class ActivityManager {
 		System.out.println(new ActivityManager()
 				.queryCurrentApplicantInfo("ipiszy"));
 		System.out.println(new ActivityManager().queryItem(1));
-		new ActivityManager().saveItem(new Item(13, "lalala", 2, "wait",
+		new ActivityManager().addItem(new Item(13, "lalala", 2, "wait",
 				"1988-12-18", 12, "ipiszy", "", ""));
 		System.out.println(new ActivityManager().loadItem("ZhangKunpeng")
 				.getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
-		System.out.println(new ActivityManager().submitItem(1, true, "excellent!"));
+		System.out.println(new ActivityManager().submitItem(1, true,
+				"excellent!"));
 	}
 
 	@SuppressWarnings("unchecked")
-
-	
 	public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
@@ -80,7 +79,36 @@ public class ActivityManager {
 		return item;
 	}
 
-	public boolean saveItem(Item item) {
+	public boolean updateItem(Item item) {
+		Session s = HibernateUtil.currentSession();
+		boolean flag = true;
+
+		try {
+			HibernateUtil.beginTransaction();
+			Itemdb itemdb = new Itemdb();
+			itemdb.setId(item.getId());
+			itemdb.setComment(item.getComment());
+			itemdb.setContent(item.getContent());
+			itemdb.setDate(item.getDate());
+			itemdb.setFormname(item.getFormname());
+			itemdb.setProjectid(item.getProjectId());
+			itemdb.setState(item.getState());// state:user;wait;ongoing;finish
+			itemdb.setStep(1);
+			itemdb.setUsername(item.getUsername());
+			s.update(itemdb);
+			HibernateUtil.commitTransaction();
+
+		} catch (HibernateException e) {
+			log.fatal(e);
+			flag = false;
+		}
+
+		HibernateUtil.closeSession();
+		return flag;
+
+	}
+
+	public boolean addItem(Item item) {
 
 		Session s = HibernateUtil.currentSession();
 		boolean flag = true;
@@ -89,17 +117,14 @@ public class ActivityManager {
 
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = new Itemdb();
-			if (item.getId() != -1)// 如何判断这个id是否有效？
-				itemdb.setId(item.getId());
 			itemdb.setComment(item.getComment());
 			itemdb.setContent(item.getContent());
-			itemdb.setDate(item.getDate());
 			itemdb.setFormname(item.getFormname());
-			itemdb.setProjectid(item.getProjectID());
-			itemdb.setState(item.getState());//state:user;wait;ongoing;finish
-			itemdb.setStep(item.getStep());
+			itemdb.setProjectid(item.getProjectId());
+			itemdb.setState(item.getState());// state:user;wait;ongoing;finish
+			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
-			s.saveOrUpdate(itemdb);
+			s.save(itemdb);
 			HibernateUtil.commitTransaction();
 
 		} catch (HibernateException e) {
@@ -200,8 +225,8 @@ public class ActivityManager {
 			HibernateUtil.commitTransaction();
 
 			for (Object obj : itemList) {
-				if (obj==null)
-					id=0;
+				if (obj == null)
+					id = 0;
 				else
 					id = Long.parseLong(obj.toString());
 			}
@@ -254,8 +279,7 @@ public class ActivityManager {
 							itemdb.setStep(step + 1);
 						}
 					}
-				} 
-				else {
+				} else {
 					itemdb.setState("user");
 					flag = true;
 				}
@@ -268,23 +292,22 @@ public class ActivityManager {
 		HibernateUtil.closeSession();
 		return flag;
 	}
-	
-	public boolean releaseItem(long id){
-		Session s=HibernateUtil.currentSession();
-		boolean flag=false;
-		try{
+
+	public boolean releaseItem(long id) {
+		Session s = HibernateUtil.currentSession();
+		boolean flag = false;
+		try {
 			HibernateUtil.beginTransaction();
-			Itemdb itemdb=(Itemdb)s.get(Itemdb.class, id);
-			if (itemdb!=null){
-				flag=true;
-				if (itemdb.getState().equals("ongoing")){
+			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
+			if (itemdb != null) {
+				flag = true;
+				if (itemdb.getState().equals("ongoing")) {
 					itemdb.setState("wait");
 					s.update(itemdb);
 				}
 			}
 			HibernateUtil.commitTransaction();
-		}
-		catch(HibernateException e){
+		} catch (HibernateException e) {
 			log.fatal(e);
 		}
 		return flag;
