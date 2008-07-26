@@ -69,7 +69,7 @@ public class AccountManager {
 
 			Managerinfodb managerinfodb = new Managerinfodb();
 			managerinfodb.setDepartment(department);
-			managerinfodb.setId(account.getName());
+			managerinfodb.setId(account.getUsername());
 			s.save(managerinfodb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
@@ -82,36 +82,15 @@ public class AccountManager {
 		return flag;
 	}
 
-	public boolean delAccount(Account account) {
+	public boolean delAccount(String username) {
 		boolean flag = true;
 		Session s = HibernateUtil.currentSession();
 		try {
 			HibernateUtil.beginTransaction();
-			Accountdb accountdb = (Accountdb) s.get(Account.class, account
-					.getName());
-			s.delete(accountdb);
+			Accountdb accountdb = (Accountdb) s.get(Account.class, username);
 			HibernateUtil.commitTransaction();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			log.fatal(e);
-			flag = false;
-		}
-
-		HibernateUtil.closeSession();
-		return flag;
-	}
-
-	public boolean delAccount(Account account, String department) {
-		Session s = HibernateUtil.currentSession();
-		boolean flag;
-		flag = delAccount(account);
-
-		try {
-			HibernateUtil.beginTransaction();
-			Managerinfodb managerinfodb = (Managerinfodb) s.get(
-					Managerinfodb.class, account.getName());
-			s.delete(managerinfodb);
-			HibernateUtil.commitTransaction();
+			accountdb.setDisabled(true);
+			
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
