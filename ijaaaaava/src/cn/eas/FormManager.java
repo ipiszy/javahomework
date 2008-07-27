@@ -29,7 +29,7 @@ public class FormManager {
 		System.out.println(new FormManager().editForm(new Form(flow, null,
 				"进东20楼", "进东20楼申请书--泣血")));
 		
-		//System.out.println(new FormManager().deleteForm("进东20楼"));
+        System.out.println(new FormManager().deleteForm("进东20楼"));
 		System.out.println(new FormManager().addForm(new Form(flow,null,"进东20楼","")));
 
 	}

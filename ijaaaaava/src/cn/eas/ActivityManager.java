@@ -98,7 +98,6 @@ public class ActivityManager {
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
 			itemdb.setComment("");
-			itemdb.setContent("");
 			
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
@@ -130,7 +129,6 @@ public class ActivityManager {
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
 			itemdb.setComment("");
-			itemdb.setContent("");
 			s.save(itemdb);
 			HibernateUtil.commitTransaction();
 
