@@ -29,7 +29,8 @@ public class FormManager {
 		System.out.println(new FormManager().editForm(new Form(flow, null,
 				"进东20楼", "进东20楼申请书--泣血")));
 		
-		System.out.println(new FormManager().deleteForm("进东20楼"));
+		//System.out.println(new FormManager().deleteForm("进东20楼"));
+		System.out.println(new FormManager().addForm(new Form(flow,null,"进东20楼","")));
 
 	}
 
@@ -114,12 +115,15 @@ public class FormManager {
 			formdb.setInfo(form.getContent());
 
 			HibernateUtil.beginTransaction();
-			s.saveOrUpdate(formdb);
+			if (s.get(Formdb.class, form.getName())!=null)
+				flag=false;
+			else{
+				s.save(formdb);
+			}
 			HibernateUtil.commitTransaction();
 
 			addFormflow(flow, name, s);
 
-			flag = true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
