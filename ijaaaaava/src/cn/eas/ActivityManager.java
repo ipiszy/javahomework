@@ -37,7 +37,7 @@ public class ActivityManager {
 		try {
 			HibernateUtil.beginTransaction();
 			List itemList = s.createSQLQuery(
-					"SELECT id, formname, state, date from itemdb where username='"
+					"SELECT id, formname, state, date ,step from itemdb where username='"
 							+ username + "'").list();
 			HibernateUtil.commitTransaction();
 
@@ -47,9 +47,23 @@ public class ActivityManager {
 				String formname = o[1].toString();
 				String state = o[2].toString();
 				String date = o[3].toString();
-				itemInfoList.add(new ItemInfo(id, formname, state, date));
-			}
-		} catch (HibernateException e) {
+				int step = Integer.parseInt(o[4].toString());
+				System.out.println(step);
+				System.out.println(formname);
+				HibernateUtil.beginTransaction();
+				List departmentList = s.createSQLQuery("select department from formflowdb "+
+						"where formname='"+formname+"' and step="+step).list();
+				HibernateUtil.commitTransaction();
+				String department = departmentList.get(0).toString();
+				itemInfoList.add(new ItemInfo(id, formname, state, date, department));
+			}		
+			
+		} catch (HibernateException e){
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		}
+		  catch (java.lang.IndexOutOfBoundsException e){
 			e.printStackTrace();
 			log.fatal(e);
 		}
