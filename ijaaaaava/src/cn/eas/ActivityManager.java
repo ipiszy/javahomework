@@ -21,13 +21,12 @@ public class ActivityManager {
 		System.out.println(new ActivityManager().queryItem(1));
 		new ActivityManager().addItem(new Item(13, "lalala", 2, "wait",
 				"1988-12-18", 12, "ipiszy", "", ""));
-		System.out.println(new ActivityManager().loadItem("aay")
-				.getId());
+		System.out.println(new ActivityManager().loadItem("aay").getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
 		System.out.println(new ActivityManager().submitItem(1, true,
 				"excellent!"));
-//		System.out.println(new ActivityManager().addItem(item))
+		// System.out.println(new ActivityManager().addItem(item))
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,7 +97,7 @@ public class ActivityManager {
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
 			itemdb.setComment("");
-			
+
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 
@@ -263,7 +262,7 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
 			HibernateUtil.commitTransaction();
-			
+
 			if (itemdb == null)
 				flag = false;
 			else {
@@ -297,14 +296,14 @@ public class ActivityManager {
 					flag = true;
 				}
 			}
-			
+
 			HibernateUtil.beginTransaction();
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
-			flag=false;
+			flag = false;
 		}
 		HibernateUtil.closeSession();
 		return flag;
@@ -317,7 +316,7 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
 			HibernateUtil.commitTransaction();
-			
+
 			if (itemdb != null) {
 				flag = true;
 				if (itemdb.getState().equals("ongoing")) {
@@ -331,7 +330,7 @@ public class ActivityManager {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
-			flag=false;
+			flag = false;
 		}
 		return flag;
 	}
