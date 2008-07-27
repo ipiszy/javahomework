@@ -37,6 +37,7 @@ public class AccountManager {
 				returnString = accountdb.getType();
 
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			log.fatal(e);
 			returnString = null;
 		}
@@ -60,6 +61,7 @@ public class AccountManager {
 			s.saveOrUpdate(accountdb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
@@ -80,9 +82,10 @@ public class AccountManager {
 			Managerinfodb managerinfodb = new Managerinfodb();
 			managerinfodb.setDepartment(department);
 			managerinfodb.setId(account.getUsername());
-			s.save(managerinfodb);
+			s.saveOrUpdate(managerinfodb);
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
@@ -105,6 +108,7 @@ public class AccountManager {
 			HibernateUtil.commitTransaction();
 			
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
@@ -132,6 +136,7 @@ public class AccountManager {
 				department = null;
 
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 		}
@@ -162,6 +167,7 @@ public class AccountManager {
 			}
 		}
 		catch (HibernateException e){
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 		}
@@ -184,6 +190,7 @@ public class AccountManager {
 				accountinfo=new AccountInfo(accountdb.getId(),accountdb.getName(),accountdb.getType());
 		}
 		catch (HibernateException e){
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 		}
