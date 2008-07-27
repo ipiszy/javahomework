@@ -115,14 +115,16 @@ public class FormManager {
 			formdb.setInfo(form.getContent());
 
 			HibernateUtil.beginTransaction();
-			if (s.get(Formdb.class, form.getName())!=null)
+			if (s.get(Formdb.class, form.getName())!=null){
 				flag=false;
+				HibernateUtil.commitTransaction();
+			}
+		
 			else{
 				s.save(formdb);
+				HibernateUtil.commitTransaction();
+				addFormflow(flow, name, s);
 			}
-			HibernateUtil.commitTransaction();
-
-			addFormflow(flow, name, s);
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
