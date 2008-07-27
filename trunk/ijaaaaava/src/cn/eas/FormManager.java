@@ -65,6 +65,7 @@ public class FormManager {
 				forminfo.setFlow(departments);
 			}
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 		}
@@ -95,6 +96,7 @@ public class FormManager {
 			form.setFlow(departments);
 
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 		}
@@ -115,10 +117,8 @@ public class FormManager {
 			formdb.setInfo(form.getContent());
 
 			HibernateUtil.beginTransaction();
-			if (s.get(Formdb.class, form.getName())!=null){
-				flag=false;
-				HibernateUtil.commitTransaction();
-			}
+			if (s.get(Formdb.class, form.getName())!=null)
+				throw new HibernateException("duplicate form");
 		
 			else{
 				s.save(formdb);
@@ -127,6 +127,7 @@ public class FormManager {
 			}
 
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
@@ -147,7 +148,10 @@ public class FormManager {
 			HibernateUtil.beginTransaction();
 
 			Formdb formdb = (Formdb) s.get(Formdb.class, form.getName());
-			formdb.setInfo(form.getContent());
+			if (formdb==null)
+				throw new HibernateException("no such form!");
+			
+			formdb.setInfo(form.getContent());	
 			s.update(formdb);
 			HibernateUtil.commitTransaction();
 
@@ -157,6 +161,7 @@ public class FormManager {
 
 			flag = true;
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 			flag = false;
@@ -174,14 +179,15 @@ public class FormManager {
 			Formdb formdb = (Formdb) s.get(Formdb.class, name);
 			HibernateUtil.commitTransaction();
 
-			if (formdb != null) {
-				HibernateUtil.beginTransaction();
-				s.delete(formdb);
-				HibernateUtil.commitTransaction();
-				removeFormflow(name, s);
-				flag = true;
-			}
+			if (formdb == null)
+				throw new HibernateException("no such form");
+			
+			HibernateUtil.beginTransaction();
+			s.delete(formdb);
+			HibernateUtil.commitTransaction();
+			removeFormflow(name, s);
 		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 			flag=false;
