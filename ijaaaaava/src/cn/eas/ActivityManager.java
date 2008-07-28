@@ -266,8 +266,7 @@ public class ActivityManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean submitItem(long id, String username, boolean result,
-			String comment) {
+	public boolean submitItem(long id, String username, boolean result,String comment) {
 		boolean flag = true;
 		boolean finalStep = false;
 		Session s = HibernateUtil.currentSession();
