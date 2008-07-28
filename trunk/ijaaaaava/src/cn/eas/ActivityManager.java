@@ -39,32 +39,49 @@ public class ActivityManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
-		Session s = HibernateUtil.currentSession();
-		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
+    public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
+            Session s = HibernateUtil.currentSession();
+            ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
 
-		try {
-			HibernateUtil.beginTransaction();
-			List itemList = s.createSQLQuery(
-					"SELECT id, formname, state, date from itemdb where username='"
-							+ username + "'").list();
-			HibernateUtil.commitTransaction();
+            try {
+                    HibernateUtil.beginTransaction();
+                    List itemList = s.createSQLQuery(
+                                    "SELECT id, formname, state, date ,step from itemdb where username='"
+                                                    + username + "'").list();
+                    HibernateUtil.commitTransaction();
 
-			for (Object obj : itemList) {
-				Object[] o = (Object[]) obj;
-				long id = Long.parseLong(o[0].toString());
-				String formname = o[1].toString();
-				String state = o[2].toString();
-				String date = o[3].toString();
-				itemInfoList.add(new ItemInfo(id, formname, state, date));
-			}
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			log.fatal(e);
-		}
-		HibernateUtil.closeSession();
-		return itemInfoList;
-	}
+                    for (Object obj : itemList) {
+                            Object[] o = (Object[]) obj;
+                            long id = Long.parseLong(o[0].toString());
+                            String formname = o[1].toString();
+                            String state = o[2].toString();
+                            String date = o[3].toString();
+                            int step = Integer.parseInt(o[4].toString());
+                            System.out.println(step);
+                            System.out.println(formname);
+                            HibernateUtil.beginTransaction();
+                            List departmentList = s.createSQLQuery("select department from formflowdb "+
+                                            "where formname='"+formname+"' and step="+step).list();
+                            HibernateUtil.commitTransaction();
+                            if (departmentList.size()==0)
+                            	throw new HibernateException("no such department");
+                            String department = departmentList.get(0).toString();
+                            itemInfoList.add(new ItemInfo(id, formname, state, date, department));
+                    }               
+                    
+            } catch (HibernateException e){
+                    HibernateUtil.commitTransaction();
+                    e.printStackTrace();
+                    log.fatal(e);
+            }
+              catch (java.lang.IndexOutOfBoundsException e){
+                    e.printStackTrace();
+                    log.fatal(e);
+            }
+            HibernateUtil.closeSession();
+            return itemInfoList;
+    }
+
 
 	public Item queryItem(long id) {
 		Session s = HibernateUtil.currentSession();
