@@ -40,4 +40,7 @@ select min(temp2.id) from
      ) temp1
  on itemdb.step=temp1.step and itemdb.formname=temp1.formname
 ) temp2
- where temp2.state='wait';                
+ where temp2.state='wait';           
+ 
+ 
+ select name from formdb where name='Ωªªª…˙…Í«Î±Ì'     
