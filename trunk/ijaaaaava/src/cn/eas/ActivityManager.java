@@ -21,7 +21,7 @@ public class ActivityManager {
 		System.out.println(new ActivityManager().queryItem(1));
 		new ActivityManager().addItem(new Item(13, "lalala", 2, "wait",
 				"1988-12-18", 12, "ipiszy", "", ""));
-		System.out.println(new ActivityManager().loadItem("aay").getId());
+		//System.out.println(new ActivityManager().loadItem("aay").getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
 		System.out.println(new ActivityManager().submitItem(1, true,
@@ -183,6 +183,8 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
+			if (itemdb==null)
+				throw new HibernateException("no such item");
 			itemdb.setState("ongoing");
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
@@ -231,17 +233,16 @@ public class ActivityManager {
 					.list();
 			HibernateUtil.commitTransaction();
 
+			if (itemList.size()==0)
+				throw new HibernateException("no such item");
 			for (Object obj : itemList) {
 				if (obj == null)
-					id = 0;
+					throw new HibernateException("no such item");
 				else
 					id = Long.parseLong(obj.toString());
 			}
 
-			if (id == 0)
-				item = null;
-			else
-				item = loadItem(id);
+			item = loadItem(id);
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
