@@ -15,6 +15,7 @@ public class CommentManager {
 		new CommentManager().addComment(28, "WangJiaying", "test");
 		new CommentManager().addComment(28, "WangJiaying", "test");
 		new CommentManager().addComment(28, "WangJiaying", "test");
+		System.out.println(new CommentManager().queryComments(28));
 		
 	}
 
@@ -40,8 +41,9 @@ public class CommentManager {
 		HibernateUtil.closeSession();
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Comment> queryComments(long itemId) {
-		ArrayList<Comment> comments = null;
+		ArrayList<Comment> comments = new ArrayList<Comment>();
 
 		Session s = HibernateUtil.currentSession();
 
@@ -71,7 +73,7 @@ public class CommentManager {
 				
 				comment = objArray[1].toString();
 				date = objArray[2].toString();
-				comments.add(new Comment(comment,name,date));
+				comments.add(new Comment (comment,name,date));
 			}
 
 		} catch (HibernateException e) {
