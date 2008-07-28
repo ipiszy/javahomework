@@ -19,14 +19,20 @@ public class ActivityManager {
 		System.out.println(new ActivityManager()
 				.queryCurrentApplicantInfo("ipiszy"));
 		System.out.println(new ActivityManager().queryItem(1));
-		new ActivityManager().addItem(new Item(13, "lalala", 2, "wait",
+		new ActivityManager().addItem(new Item(13, "lalala", 2, "等待批复",
 				"1988-12-18", 12, "ipiszy", "", ""));
-		//System.out.println(new ActivityManager().loadItem("aay").getId());
+		// System.out.println(new ActivityManager().loadItem("aay").getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
 		System.out.println(new ActivityManager().submitItem(1, true,
 				"excellent!"));
 		// System.out.println(new ActivityManager().addItem(item))
+		Item item = new ActivityManager().loadItem(2);
+		item.setComment("wahaha");
+		System.out.println(new ActivityManager().updateItem(item));
+		item = new ActivityManager().loadItem(4);
+		item.setDate("1988-12-18");
+		System.out.println(new ActivityManager().updateItem(item));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -93,7 +99,7 @@ public class ActivityManager {
 			itemdb.setDate(item.getDate());
 			itemdb.setFormname(item.getFormname());
 			itemdb.setProjectid(item.getProjectId());
-			itemdb.setState(item.getState());// state:user;wait;ongoing;finish
+			itemdb.setState(item.getState());// state:用户保存;等待批复;正在批复;申请完成
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
 			itemdb.setComment("");
@@ -124,7 +130,7 @@ public class ActivityManager {
 			itemdb.setContent(item.getContent());
 			itemdb.setFormname(item.getFormname());
 			itemdb.setProjectid(item.getProjectId());
-			itemdb.setState(item.getState());// state:user;wait;ongoing;finish
+			itemdb.setState(item.getState());// state:用户保存;等待批复;正在批复;申请完成
 			itemdb.setStep(1);
 			itemdb.setUsername(item.getUsername());
 			itemdb.setComment("");
@@ -153,7 +159,7 @@ public class ActivityManager {
 							"SELECT itemdb.id,itemdb.formname,state,date "
 									+ "from itemdb inner join formflowdb "
 									+ "on itemdb.formname=formflowdb.formname AND itemdb.step=formflowdb.step "
-									+ "where itemdb.state='wait' AND department='"
+									+ "where itemdb.state='等待批复' AND department='"
 									+ department + "'").list();
 			HibernateUtil.commitTransaction();
 
@@ -183,9 +189,9 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
-			if (itemdb==null)
+			if (itemdb == null)
 				throw new HibernateException("no such item");
-			itemdb.setState("ongoing");
+			itemdb.setState("正在批复");
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 
@@ -229,11 +235,11 @@ public class ActivityManager {
 									+ ") "
 									+ ") temp1 "
 									+ "on itemdb.step=temp1.step and itemdb.formname=temp1.formname "
-									+ ") temp2 " + "where temp2.state='wait'")
+									+ ") temp2 " + "where temp2.state='等待批复'")
 					.list();
 			HibernateUtil.commitTransaction();
 
-			if (itemList.size()==0)
+			if (itemList.size() == 0)
 				throw new HibernateException("no such item");
 			for (Object obj : itemList) {
 				if (obj == null)
@@ -286,14 +292,14 @@ public class ActivityManager {
 
 					if (flag == true) {
 						if (finalStep == true)
-							itemdb.setState("finish");
+							itemdb.setState("申请完成");
 						else {
-							itemdb.setState("wait");
+							itemdb.setState("等待批复");
 							itemdb.setStep(step + 1);
 						}
 					}
 				} else {
-					itemdb.setState("user");
+					itemdb.setState("用户保存");
 					flag = true;
 				}
 			}
@@ -320,8 +326,8 @@ public class ActivityManager {
 
 			if (itemdb != null) {
 				flag = true;
-				if (itemdb.getState().equals("ongoing")) {
-					itemdb.setState("wait");
+				if (itemdb.getState().equals("正在批复")) {
+					itemdb.setState("等待批复");
 					HibernateUtil.beginTransaction();
 					s.update(itemdb);
 					HibernateUtil.commitTransaction();

@@ -20,7 +20,7 @@
 		<property
 			name="Date"
 			column="date"
-			type="timestamp"
+			type="string"
 			not-null="false"
 			length="19"
 		/>
