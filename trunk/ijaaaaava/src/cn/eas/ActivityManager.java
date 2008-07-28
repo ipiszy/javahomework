@@ -19,16 +19,19 @@ public class ActivityManager {
 		System.out.println(new ActivityManager()
 				.queryCurrentApplicantInfo("ipiszy"));
 		System.out.println(new ActivityManager().queryItem(1));
-		new ActivityManager().addItem(new Item(13, "lalala", 2, "等待批复",
-				"1988-12-18", 12, "ipiszy", "", ""));
+		new ActivityManager().addItem(new Item("ipiszy","lalala", "等待批复", "ipiszy"));
 		// System.out.println(new ActivityManager().loadItem("aay").getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
-		System.out.println(new ActivityManager().submitItem(1, "WangJiaying",true,
-				"excellent!"));
+		System.out.println(new ActivityManager().submitItem(1, "WangJiaying",
+				true, "excellent!"));
+		System.out.println(new ActivityManager().submitItem(1, "LiWeimin",
+				true, "excellent!"));
+		System.out.println(new ActivityManager().submitItem(1, "WangJiaying",
+				true, "excellent!"));
 		// System.out.println(new ActivityManager().addItem(item))
 		Item item = new ActivityManager().loadItem(2);
-		item.setComment("wahaha");
+		// item.setComment("wahaha");
 		System.out.println(new ActivityManager().updateItem(item));
 		item = new ActivityManager().loadItem(4);
 		item.setDate("1988-12-18");
@@ -74,9 +77,10 @@ public class ActivityManager {
 
 			if (itemdb != null)
 				item = new Item(itemdb.getId(), itemdb.getFormname(), itemdb
-						.getStep(), itemdb.getState(), itemdb.getDate(), itemdb
-						.getProjectid(), itemdb.getUsername(), itemdb
-						.getComment(), itemdb.getContent());
+						.getState(), itemdb.getDate(), itemdb.getUsername(),
+						itemdb.getContent(), itemdb.getStep(),
+						new CommentManager().queryComments(itemdb.getId()),
+						itemdb.getProjectid());
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -196,9 +200,11 @@ public class ActivityManager {
 			HibernateUtil.commitTransaction();
 
 			item = new Item(itemdb.getId(), itemdb.getFormname(), itemdb
-					.getStep(), itemdb.getState(), itemdb.getDate(), itemdb
-					.getProjectid(), itemdb.getUsername(), itemdb.getComment(),
-					itemdb.getContent());
+					.getState(), itemdb.getDate(), itemdb.getUsername(),
+					itemdb.getContent(), itemdb.getStep(),
+					new CommentManager().queryComments(itemdb.getId()),
+					itemdb.getProjectid());
+			
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
@@ -260,7 +266,8 @@ public class ActivityManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean submitItem(long id, String username, boolean result, String comment) {
+	public boolean submitItem(long id, String username, boolean result,
+			String comment) {
 		boolean flag = true;
 		boolean finalStep = false;
 		Session s = HibernateUtil.currentSession();
@@ -308,6 +315,7 @@ public class ActivityManager {
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 			new CommentManager().addComment(id, username, comment);
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);

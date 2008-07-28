@@ -1,38 +1,46 @@
 package cn.eas;
 
+import java.util.ArrayList;
+
 public class Item {
 	private long id;
-	private String formname, state, date, username, comment, content;
+	private String formname, state, date, username, content;
 	private int step;
 	private long projectId;
+	private ArrayList<Comment> commentList;
+
+	public Item(long id, String formname, String state, String date,
+			String username, String content, int step, ArrayList<Comment> commentList,
+			long projectId) 
+	{
+		super();
+		this.id = id;
+		this.formname = formname;
+		this.state = state;
+		this.date = date;
+		this.username = username;
+		this.content = content;
+		this.step = step;
+		this.projectId = projectId;
+		this.commentList = commentList;
+	}
 
 	public Item() {
 	}
 
-	public Item(String formname, String state, String content) {
+	public Item(String username, String formname, String state, String content) {
+		this.username=username;
 		this.formname = formname;
 		this.content = content;
 		this.step = 1;
 		this.state = state;
 	}
 
-	public Item(long id, String formname, int step, String state, String date,
-			long projectID, String username, String comment, String content) {
-		this.id = id;
-		this.formname = formname;
-		this.step = step;
-		this.state = state;
-		this.date = date;
-		this.projectId = projectID;
-		this.username = username;
-		this.comment = comment;
-		this.content = content;
-	}
 
 	public String toString() {
 		return ("id:" + id + "\tformname:" + formname + "\tstep:" + step
 				+ "\tstate:" + state + "\tdate:" + date + "\tprojectID:"
-				+ projectId + "\tusername:" + username + "\tcomment:" + comment
+				+ projectId + "\tusername:" + username + "\tcomment:" + commentList
 				+ "\tcontent:" + content);
 	}
 
@@ -60,9 +68,6 @@ public class Item {
 		this.username = username;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
 
 	public void setContent(String content) {
 		this.content = content;
@@ -92,9 +97,6 @@ public class Item {
 		return this.username;
 	}
 
-	public String getComment() {
-		return this.comment;
-	}
 
 	public String getContent() {
 		return this.content;
@@ -108,20 +110,11 @@ public class Item {
 		this.id = id;
 	}
 
-/*	public static String switchState(String state) {
-		String stateReturn = null;
-
-		if (state.equals("wait"))
-			stateReturn = "等待批复";
-		else if (state.equals("ongoing"))
-			stateReturn = "正在批复";
-		else if (state.equals("user"))
-			stateReturn = "用户保存";
-		else if (state.equals("finish"))
-			stateReturn = "申请完成";
-
-		return stateReturn;
-
+	public ArrayList<Comment> getCommentList() {
+		return commentList;
 	}
-	*/
+
+	public void setCommentList(ArrayList<Comment> commentList) {
+		this.commentList = commentList;
+	}
 }

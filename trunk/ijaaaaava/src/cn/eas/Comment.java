@@ -34,4 +34,8 @@ public class Comment {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+	public String toString(){
+		return ("comment:"+comment+"\tname£º"+name+"\tdate£º"+date);
+	}
 }
