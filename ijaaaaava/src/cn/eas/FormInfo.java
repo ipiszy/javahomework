@@ -3,30 +3,9 @@ package cn.eas;
 import java.util.ArrayList;
 
 public class FormInfo {
-	private long id;
 	private ArrayList<String> flow;
 	private String name;
 	
-	public FormInfo(){
-	}
-	
-	public FormInfo(ArrayList<String> flow, String name){
-		this.flow=flow;
-		this.name=name;
-	}
-	
-	public FormInfo(long id, String name){
-		this.id=id;
-		this.name=name;
-	}
-
-	public FormInfo(long id, ArrayList<String> flow, String name) {
-		super();
-		this.id = id;
-		this.flow = flow;
-		this.name = name;
-	}
-
 	public ArrayList<String> getFlow(){
 		return flow;
 	}
@@ -43,11 +22,15 @@ public class FormInfo {
 		this.name=name;
 	}
 	
-	public long getId() {
-		return id;
+	public FormInfo(){
 	}
-
-	public void setId(long id) {
-		this.id = id;
+	
+	public FormInfo(ArrayList<String> flow, String name){
+		this.flow=flow;
+		this.name=name;
+	}
+	
+	public FormInfo(String name){
+		this.name=name;
 	}
 }
