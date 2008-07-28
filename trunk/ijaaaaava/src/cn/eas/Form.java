@@ -6,11 +6,23 @@ public class Form {
 	private ArrayList<String> previous;
 	private String name;
 	private String content;
+	private long id;
 	
-	public Form (){
-		
+    public Form (){
+    	
+    }
+
+    public Form(ArrayList<String> flow, ArrayList<String> previous,
+			String name, String content) {
+		super();
+		this.flow = flow;
+		this.previous = previous;
+		this.name = name;
+		this.content = content;
 	}
-	public Form(ArrayList<String> flow, ArrayList<String> previous, String name, String content){
+	
+	public Form(long id, ArrayList<String> flow, ArrayList<String> previous, String name, String content){
+		this.id=id;
 		this.flow=flow;
 		this.previous=previous;
 		this.name=name;
@@ -47,5 +59,11 @@ public class Form {
 	
 	public void setContent(String content){
 		this.content=content;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 }
