@@ -7,7 +7,7 @@ public class ItemInfo {
 	public ItemInfo(long id,String formname, String state, String date){
 		this.id=id;
 		this.formname=formname;
-		this.state=state;
+		this.state = state;
 		this.date=date;
 	}
 	
