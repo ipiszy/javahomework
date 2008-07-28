@@ -24,7 +24,7 @@ public class ActivityManager {
 		// System.out.println(new ActivityManager().loadItem("aay").getId());
 		System.out.println(new ActivityManager().loadItem(4));
 		System.out.println(new ActivityManager().releaseItem(4));
-		System.out.println(new ActivityManager().submitItem(1, true,
+		System.out.println(new ActivityManager().submitItem(1, "WangJiaying",true,
 				"excellent!"));
 		// System.out.println(new ActivityManager().addItem(item))
 		Item item = new ActivityManager().loadItem(2);
