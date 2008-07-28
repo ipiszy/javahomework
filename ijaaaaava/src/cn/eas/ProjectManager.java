@@ -10,6 +10,7 @@ import org.hibernate.Session;
 public class ProjectManager {
 	private static Log log = LogFactory.getLog(ActivityManager.class);
 	
+	//新建工程。注意检查重名情况
 	public long createProject(String name){
 
 		Session s = HibernateUtil.currentSession();
@@ -29,6 +30,7 @@ public class ProjectManager {
 		return id;
 	}
 	
+	//打开一个工程。返回工程内部全部的ItemInfo。需检索itemdb表。
 	public ArrayList<ItemInfo> openProject(long id){
 
 		Session s = HibernateUtil.currentSession();
@@ -47,6 +49,7 @@ public class ProjectManager {
 		return itemInfoList;
 	}
 	
+	//查询所有工程。返回所有工程的ArrayList
 	public ArrayList<Project> queryProjects(){
 
 		Session s = HibernateUtil.currentSession();

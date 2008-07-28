@@ -29,5 +29,6 @@
 		<mapping resource="Formflowdb.hbm.xml" />
 		<mapping resource="Itemdb.hbm.xml" />
 		<mapping resource="Projectdb.hbm.xml" />
+		<mapping resource="Commentdb.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
