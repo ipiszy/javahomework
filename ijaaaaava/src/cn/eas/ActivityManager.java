@@ -322,7 +322,7 @@ public class ActivityManager {
 						}
 					}
 				} else {
-					itemdb.setState("用户保存");
+					itemdb.setState("申请驳回");
 					flag = true;
 				}
 			}
