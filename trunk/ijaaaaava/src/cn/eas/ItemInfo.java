@@ -2,9 +2,20 @@ package cn.eas;
 
 public class ItemInfo {
        private long id;
-       private String formname,state,date,department;
+       private String formname,state,date,department, lastModify;
        
        public ItemInfo(long id, String formname, String state, String date,
+			String department, String lastModify) {
+		super();
+		this.id = id;
+		this.formname = formname;
+		this.state = state;
+		this.date = date;
+		this.department = department;
+		this.lastModify = lastModify;
+	}
+
+	public ItemInfo(long id, String formname, String state, String date,
                        String department) {
                super();
                this.id = id;
@@ -64,5 +75,13 @@ public class ItemInfo {
        public void setDepartment(String department) {
                this.department = department;
        }
+
+	public String getLastModify() {
+		return lastModify;
+	}
+
+	public void setLastModify(String lastModify) {
+		this.lastModify = lastModify;
+	}
 }
 

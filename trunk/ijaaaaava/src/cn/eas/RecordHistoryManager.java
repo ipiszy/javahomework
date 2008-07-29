@@ -1,0 +1,96 @@
+package cn.eas;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+
+public class RecordHistoryManager {
+	private static Log log = LogFactory.getLog(ActivityManager.class);
+
+	public ArrayList<Record> queryRecordHistory(String managerUsername) {
+		Session s = HibernateUtil.currentSession();
+		ArrayList<Record> recordList = new ArrayList<Record>();
+
+		try {
+			HibernateUtil.beginTransaction();
+
+			Managerinfodb managerinfodb = (Managerinfodb) s.get(
+					Managerinfodb.class, managerUsername);
+			if (managerinfodb == null)
+				throw new HibernateException("no such manager");
+
+			String department = managerinfodb.getDepartment();
+
+			List recordHistoryList = s
+					.createSQLQuery(
+							"select comment, i_id, username, date, result from recordhistorydb " +
+							"where department='" + department + "'").list();
+			
+			String comment, username, date;
+			boolean result;
+			long i_id;
+			
+			for (Object obj:recordHistoryList){
+				Object[] o = (Object[])obj;
+				comment = o[0].toString();
+				i_id = Long.parseLong(o[1].toString());
+				username = o[2].toString();
+				
+				
+			}
+
+			HibernateUtil.commitTransaction();
+
+		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		}
+
+		HibernateUtil.closeSession();
+		return recordList;
+
+	}
+
+	/*
+	 * public ArrayList<Record> queryRecordHistory(String department) { }
+	 */
+
+	public void addRecord(Itemdb itemdb, String managerUsername,
+			String comment, boolean result) {
+
+		Session s = HibernateUtil.currentSession();
+
+		try {
+			HibernateUtil.beginTransaction();
+			Recordhistorydb recordhistorydb = new Recordhistorydb();
+
+			recordhistorydb.setComment(comment);
+			recordhistorydb.setIId(itemdb.getId());
+			recordhistorydb.setUsername(managerUsername);
+			recordhistorydb.setResult(result);
+
+			Managerinfodb managerinfodb = (Managerinfodb) s.get(
+					Managerinfodb.class, managerUsername);
+			if (managerinfodb == null)
+				throw new HibernateException("no such manager");
+			recordhistorydb.setDepartment(managerinfodb.getDepartment());
+
+			s.save(recordhistorydb);
+
+			HibernateUtil.commitTransaction();
+
+		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		}
+
+		HibernateUtil.closeSession();
+		return;
+	}
+}

@@ -283,7 +283,7 @@ public class ActivityManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean submitItem(long id, String username, boolean result,String comment) {
+	public boolean submitItem(long id, String managerUsername, boolean result,String comment) {
 		boolean flag = true;
 		boolean finalStep = false;
 		Session s = HibernateUtil.currentSession();
@@ -330,7 +330,7 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
-			new CommentManager().addComment(id, username, comment);
+			new CommentManager().addComment(id, managerUsername, comment);
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
