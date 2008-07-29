@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="cn.eas">
+	<class
+		name="Departmentdb"
+		table="departmentdb"
+	>
+		<meta attribute="sync-DAO">true</meta>
+		<id
+			name="Id"
+			type="string"
+			column="name"
+		>
+		</id>
+
+		<property
+			name="Worktime"
+			column="worktime"
+			type="string"
+			not-null="false"
+			length="1000"
+		/>
+		<property
+			name="Affairs"
+			column="affairs"
+			type="string"
+			not-null="false"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

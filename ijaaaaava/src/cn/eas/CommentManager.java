@@ -19,7 +19,7 @@ public class CommentManager {
 		
 	}
 
-	public void addComment(long itemId, String username, String comment) {
+	public void addComment(long itemId, String managerUsername, String comment) {
 
 		Session s = HibernateUtil.currentSession();
 
@@ -28,7 +28,7 @@ public class CommentManager {
 			Commentdb commentdb = new Commentdb();
 			commentdb.setComment(comment);
 			commentdb.setItemid(itemId);
-			commentdb.setUsername(username);
+			commentdb.setUsername(managerUsername);
 			s.save(commentdb);
 			HibernateUtil.commitTransaction();
 
