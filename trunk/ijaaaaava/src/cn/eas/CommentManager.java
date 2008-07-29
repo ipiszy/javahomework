@@ -73,7 +73,7 @@ public class CommentManager {
 				
 				comment = objArray[1].toString();
 				date = objArray[2].toString();
-				comments.add(new Comment (comment,name,date));
+				comments.add(new Comment (comment,name,date,""));
 			}
 
 		} catch (HibernateException e) {

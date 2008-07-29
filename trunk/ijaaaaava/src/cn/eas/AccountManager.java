@@ -83,6 +83,9 @@ public class AccountManager {
 			managerinfodb.setDepartment(department);
 			managerinfodb.setId(account.getUsername());
 			s.saveOrUpdate(managerinfodb);
+			if (new DepartmentManager().addDepartment(department) == false)
+				flag = false;
+			
 			HibernateUtil.commitTransaction();
 		} catch (HibernateException e) {
 			HibernateUtil.commitTransaction();

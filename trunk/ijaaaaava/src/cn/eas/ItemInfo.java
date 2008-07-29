@@ -33,7 +33,7 @@ public class ItemInfo {
        }
        
        public String toString(){
-               return("id:"+id+"\tformname:"+formname+"\tstate:"+state+"\tdate:"+date+"\tdepartment:"+department);
+               return("id:"+id+"\tformname:"+formname+"\tstate:"+state+"\tdate:"+date+"\tdepartment:"+department+"\tlastModify:"+lastModify);
        }
        
        public String getFormname(){

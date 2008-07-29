@@ -4,10 +4,26 @@ import java.util.ArrayList;
 
 public class Item {
 	private long id;
-	private String formname, state, date, username, content;
+	private String formname, state, date, lastModify, username, content;
 	private int step;
 	private long projectId;
 	private ArrayList<Comment> commentList;
+
+	public Item(long id, String formname, String state, String date,
+			String lastModify, String username, String content, int step,
+			long projectId, ArrayList<Comment> commentList) {
+		super();
+		this.id = id;
+		this.formname = formname;
+		this.state = state;
+		this.date = date;
+		this.lastModify = lastModify;
+		this.username = username;
+		this.content = content;
+		this.step = step;
+		this.projectId = projectId;
+		this.commentList = commentList;
+	}
 
 	public Item(long id, String formname, String state, String date,
 			String username, String content, int step, ArrayList<Comment> commentList,
@@ -116,5 +132,13 @@ public class Item {
 
 	public void setCommentList(ArrayList<Comment> commentList) {
 		this.commentList = commentList;
+	}
+
+	public String getLastModify() {
+		return lastModify;
+	}
+
+	public void setLastModify(String lastModify) {
+		this.lastModify = lastModify;
 	}
 }

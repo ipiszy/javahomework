@@ -81,9 +81,10 @@ public class RecordHistoryManager {
 	 * public ArrayList<Record> queryRecordHistory(String department) { }
 	 */
 
-	public void addRecord(Itemdb itemdb, String managerUsername,
+	public boolean addRecord(Itemdb itemdb, String managerUsername,
 			String comment, boolean result) {
 
+        boolean flag = true;
 		Session s = HibernateUtil.currentSession();
 
 		try {
@@ -106,12 +107,59 @@ public class RecordHistoryManager {
 			HibernateUtil.commitTransaction();
 
 		} catch (HibernateException e) {
+			flag = false;
 			HibernateUtil.commitTransaction();
 			e.printStackTrace();
 			log.fatal(e);
 		}
 
 		HibernateUtil.closeSession();
-		return;
+		return flag;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Comment> queryComments(long itemId) {
+		ArrayList<Comment> comments = new ArrayList<Comment>();
+
+		Session s = HibernateUtil.currentSession();
+
+		try {
+			HibernateUtil.beginTransaction();
+
+			List commentList = s.createSQLQuery(
+					"select username, comment, date, department from recordhistorydb where i_id="
+							+ itemId).list();
+			HibernateUtil.commitTransaction();
+			
+			String department, comment, date, managerUsername, managerName;
+			Accountdb accountdb;
+			
+			for (Object obj : commentList){
+				Object[] objArray = (Object[])obj;
+				managerUsername = objArray[0].toString();
+				
+				HibernateUtil.beginTransaction();
+				accountdb = (Accountdb)s.get(Accountdb.class, managerUsername);
+				HibernateUtil.commitTransaction();
+				
+				if (accountdb==null)
+					throw new HibernateException (" no such manager");
+				else
+					managerName = accountdb.getName();
+				
+				comment = objArray[1].toString();
+				date = objArray[2].toString();
+				department = objArray[3].toString();
+				comments.add(new Comment (comment,managerName,date, department));
+			}
+
+		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		}
+
+		return comments;
+	}
+
 }
