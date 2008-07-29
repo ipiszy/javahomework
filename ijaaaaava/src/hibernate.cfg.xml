@@ -30,5 +30,7 @@
 		<mapping resource="Itemdb.hbm.xml" />
 		<mapping resource="Projectdb.hbm.xml" />
 		<mapping resource="Commentdb.hbm.xml" />
+		<mapping resource="Departmentdb.hbm.xml" />
+		
 	</session-factory>
 </hibernate-configuration>
