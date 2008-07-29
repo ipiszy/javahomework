@@ -16,73 +16,119 @@ public class ActivityManager {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(new ActivityManager()
-				.queryCurrentApplicantInfo("ipiszy"));
-		System.out.println(new ActivityManager().queryItem(1));
-		new ActivityManager().addItem(new Item("ipiszy","lalala", "等待批复", "ipiszy"));
-		// System.out.println(new ActivityManager().loadItem("aay").getId());
-		System.out.println(new ActivityManager().loadItem(4));
-		System.out.println(new ActivityManager().releaseItem(4));
-		System.out.println(new ActivityManager().submitItem(1, "WangJiaying",
-				true, "excellent!"));
-		System.out.println(new ActivityManager().submitItem(1, "LiWeimin",
-				true, "excellent!"));
-		System.out.println(new ActivityManager().submitItem(1, "WangJiaying",
-				true, "excellent!"));
-		// System.out.println(new ActivityManager().addItem(item))
-		Item item = new ActivityManager().loadItem(2);
-		// item.setComment("wahaha");
-		System.out.println(new ActivityManager().updateItem(item));
-		item = new ActivityManager().loadItem(4);
-		item.setDate("1988-12-18");
-		System.out.println(new ActivityManager().updateItem(item));
+
+		/*
+		 * System.out.println(new ProjectManager().queryProjects("ipiszy"));
+		 * long id = new
+		 * ProjectManager().createProject("\"按图索骥，饮水思源\"团改金设摊申请","ipiszy");
+		 * System.out.println(new ProjectManager().queryProjects("ipiszy"));
+		 * 
+		 * long id2 = new ProjectManager().createProject("交换生申请","ruciwawa");
+		 * System.out.println(new ProjectManager().queryProjects("ruciwawa"));
+		 * 
+		 * //System.out.println(new ActivityManager().addItem("test1", "团改金申请表",
+		 * "等待批复", "ipiszy", id)); //System.out.println(new
+		 * ActivityManager().addItem("test1", "团改金申请表", "用户保存", "ipiszy", id));
+		 * //System.out.println(new ActivityManager().addItem("test2", "交换生申请表",
+		 * "等待批复", "ruciwawa", id2));
+		 */
+
+		// System.out.println(new ActivityManager().queryItems(1));
+		// System.out.println(new
+		// ActivityManager().queryCurrentRecordInfo("WangJiaying"));
+		/*
+		 * Item item1 = new ActivityManager().queryItem(44);
+		 * item1.setContent("test_modified"); item1.setState("等待批复");
+		 * System.out.println (new ActivityManager().addItem(item1));
+		 * 
+		 * Item item = new ActivityManager().loadItem("WangJiaying");
+		 * System.out.println(item); System.out.println(new
+		 * ActivityManager().submitItem(item.getId(), "WangJiaying", false,
+		 * "申请驳回"));
+		 */
+
+		/*
+		 * System.out.println(new ActivityManager()
+		 * .queryCurrentApplicantInfo("ipiszy"));
+		 */
+
+		/*
+		 * System.out.println(new ActivityManager().queryNews("ipiszy"));
+		 * System.out.println(new
+		 * ActivityManager().queryCurrentApplicantInfo("ipiszy"));
+		 * System.out.println(new ActivityManager().queryItems(1));
+		 * System.out.println(new ActivityManager().queryItem(47));
+		 */
+
+		// Item item = new ActivityManager().loadItem("Azu");
+		// System.out.println(item); System.out.println(new
+		// ActivityManager().submitItem(item.getId(), "Azu", true, "so
+		// clever!"));
+
+		System.out.println(new ActivityManager().queryItem(44));
+
 	}
 
 	@SuppressWarnings("unchecked")
-    public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
-            Session s = HibernateUtil.currentSession();
-            ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
+	public ArrayList<ItemInfo> queryCurrentApplicantInfo(String username) {
+		Session s = HibernateUtil.currentSession();
+		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
 
-            try {
-                    HibernateUtil.beginTransaction();
-                    List itemList = s.createSQLQuery(
-                                    "SELECT id, formname, state, date ,step from itemdb where username='"
-                                                    + username + "'").list();
-                    HibernateUtil.commitTransaction();
+		try {
+			HibernateUtil.beginTransaction();
+			List itemList = s.createSQLQuery(
+					"SELECT id, formname, state, date ,step from itemdb where username='"
+							+ username + "'").list();
+			HibernateUtil.commitTransaction();
 
-                    for (Object obj : itemList) {
-                            Object[] o = (Object[]) obj;
-                            long id = Long.parseLong(o[0].toString());
-                            String formname = o[1].toString();
-                            String state = o[2].toString();
-                            String date = o[3].toString();
-                            int step = Integer.parseInt(o[4].toString());
-                            System.out.println(step);
-                            System.out.println(formname);
-                            HibernateUtil.beginTransaction();
-                            List departmentList = s.createSQLQuery("select department from formflowdb "+
-                                            "where formname='"+formname+"' and step="+step).list();
-                            HibernateUtil.commitTransaction();
-                            if (departmentList.size()==0)
-                            	throw new HibernateException("no such department");
-                            String department = departmentList.get(0).toString();
-                            itemInfoList.add(new ItemInfo(id, formname, state, date, department));
-                    }               
-                    
-            } catch (HibernateException e){
-                    HibernateUtil.commitTransaction();
-                    e.printStackTrace();
-                    log.fatal(e);
-            }
-              catch (java.lang.IndexOutOfBoundsException e){
-                    e.printStackTrace();
-                    log.fatal(e);
-            }
-            HibernateUtil.closeSession();
-            return itemInfoList;
-    }
+			for (Object obj : itemList) {
+				Object[] o = (Object[]) obj;
+				long id = Long.parseLong(o[0].toString());
+				String formname = o[1].toString();
+				String state = o[2].toString();
+				String date = o[3].toString();
+				int step = Integer.parseInt(o[4].toString());
+				System.out.println(step);
+				System.out.println(formname);
+				HibernateUtil.beginTransaction();
+				List departmentList = s.createSQLQuery(
+						"select department from formflowdb "
+								+ "where formname='" + formname + "' and step="
+								+ step).list();
+				HibernateUtil.commitTransaction();
+				if (departmentList.size() == 0)
+					throw new HibernateException("no such department");
+				String department = departmentList.get(0).toString();
 
+				List dateList = s.createSQLQuery(
+						"select date from recordhistorydb where i_id=" + id
+								+ " order by date desc").list();
 
+				String dateModify;
+
+				if (dateList.size() == 0)
+					dateModify = "";
+				else
+					dateModify = dateList.get(0).toString();
+
+				itemInfoList.add(new ItemInfo(id, formname, state, date,
+						department, dateModify));
+
+			}
+
+		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		} catch (java.lang.IndexOutOfBoundsException e) {
+			e.printStackTrace();
+			log.fatal(e);
+		}
+		HibernateUtil.closeSession();
+		return itemInfoList;
+	}
+
+	@SuppressWarnings("unchecked")
 	public Item queryItem(long id) {
 		Session s = HibernateUtil.currentSession();
 		Item item = null;
@@ -96,8 +142,26 @@ public class ActivityManager {
 				item = new Item(itemdb.getId(), itemdb.getFormname(), itemdb
 						.getState(), itemdb.getDate(), itemdb.getUsername(),
 						itemdb.getContent(), itemdb.getStep(),
-						new CommentManager().queryComments(itemdb.getId()),
-						itemdb.getProjectid());
+						new RecordHistoryManager().queryComments(id), itemdb
+								.getProjectid());
+
+			List departmentList = s.createSQLQuery(
+					"select department from formflowdb " + "where formname='"
+							+ itemdb.getFormname() + "' and step="
+							+ itemdb.getStep()).list();
+
+			if (departmentList.size() == 0)
+				throw new HibernateException("no such department");
+			String department = departmentList.get(0).toString();
+
+			List dateList = s.createSQLQuery(
+					"select date from recordhistorydb where i_id=" + id
+							+ " and department='" + department + "'").list();
+
+			if (dateList.size() == 0)
+				item.setLastModify("");
+			else
+				item.setLastModify(dateList.get(0).toString());
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -168,13 +232,50 @@ public class ActivityManager {
 		return flag;
 	}
 
+	public boolean addItem(String content, String formname, String state,
+			String username, long projectId) {
+
+		Session s = HibernateUtil.currentSession();
+		boolean flag = true;
+
+		try {
+
+			HibernateUtil.beginTransaction();
+			Itemdb itemdb = new Itemdb();
+			itemdb.setContent(content);
+			itemdb.setFormname(formname);
+			itemdb.setProjectid(projectId);
+			itemdb.setState(state);// state:用户保存;等待批复;正在批复;申请完成
+			itemdb.setStep(1);
+			itemdb.setUsername(username);
+			itemdb.setComment("");
+			s.save(itemdb);
+			HibernateUtil.commitTransaction();
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			log.fatal(e);
+			flag = false;
+		}
+
+		HibernateUtil.closeSession();
+		return flag;
+	}
+
 	@SuppressWarnings("unchecked")
-	public ArrayList<ItemInfo> queryCurrentRecordInfo(String department) {
+	public ArrayList<ItemInfo> queryCurrentRecordInfo(String username) {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
+		String department;
 
 		try {
 			HibernateUtil.beginTransaction();
+			Managerinfodb managerinfodb = (Managerinfodb) s.get(
+					Managerinfodb.class, username);
+			if (managerinfodb == null)
+				throw new HibernateException("no such manager");
+			department = managerinfodb.getDepartment();
+
 			List itemList = s
 					.createSQLQuery(
 							"SELECT itemdb.id,itemdb.formname,state,date "
@@ -202,6 +303,7 @@ public class ActivityManager {
 		return itemInfoList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Item loadItem(long id) {
 		Session s = HibernateUtil.currentSession();
 		Item item = new Item();
@@ -216,12 +318,22 @@ public class ActivityManager {
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
 
-			item = new Item(itemdb.getId(), itemdb.getFormname(), itemdb
-					.getState(), itemdb.getDate(), itemdb.getUsername(),
-					itemdb.getContent(), itemdb.getStep(),
-					new CommentManager().queryComments(itemdb.getId()),
-					itemdb.getProjectid());
-			
+			item = new Item(id, itemdb.getFormname(), itemdb.getState(), itemdb
+					.getDate(), itemdb.getUsername(), itemdb.getContent(),
+					itemdb.getStep(), new CommentManager().queryComments(itemdb
+							.getId()), itemdb.getProjectid());
+
+			List dateList = s.createSQLQuery(
+					"select date from recordhistorydb where i_id=" + id
+							+ " order by date desc").list();
+
+			if (dateList.size() == 0)
+				item.setLastModify("");
+			else
+				item.setLastModify(dateList.get(0).toString());
+
+			item.setCommentList(new RecordHistoryManager().queryComments(id));
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
@@ -283,7 +395,8 @@ public class ActivityManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean submitItem(long id, String managerUsername, boolean result,String comment) {
+	public boolean submitItem(long id, String managerUsername, boolean result,
+			String comment) {
 		boolean flag = true;
 		boolean finalStep = false;
 		Session s = HibernateUtil.currentSession();
@@ -293,9 +406,11 @@ public class ActivityManager {
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
 			HibernateUtil.commitTransaction();
 
-			if (itemdb == null)
+			if (itemdb == null) {
 				flag = false;
-			else {
+				throw new HibernateException("no such item");
+			} else {
+
 				itemdb.setComment(comment);
 				if (result == true) {
 					String formname = itemdb.getFormname();
@@ -330,7 +445,9 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 			s.update(itemdb);
 			HibernateUtil.commitTransaction();
-			new CommentManager().addComment(id, managerUsername, comment);
+			// new CommentManager().addComment(id, managerUsername, comment);
+			new RecordHistoryManager().addRecord(itemdb, managerUsername,
+					comment, result);
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -365,5 +482,71 @@ public class ActivityManager {
 			flag = false;
 		}
 		return flag;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<ItemInfo> queryNews(String username) {
+
+		Session s = HibernateUtil.currentSession();
+		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
+
+		try {
+			HibernateUtil.beginTransaction();
+			List newsList = s
+					.createSQLQuery(
+							"SELECT distinct recordhistorydb.i_id, "
+									+ "recordhistorydb.date, itemdb.formname, itemdb.state, itemdb.step "
+									+ "from recordhistorydb "
+									+ "inner join itemdb on itemdb.id=recordhistorydb.i_id "
+									+ "where itemdb.username='" + username
+									+ "' "
+									+ "order by recordhistorydb.date desc")
+					.list();
+			HibernateUtil.commitTransaction();
+
+			long id;
+			String dateOrigin, dateModify, formname, state, department;
+			int step;
+			Itemdb itemdb;
+
+			for (Object obj : newsList) {
+				Object[] o = (Object[]) obj;
+				id = Long.parseLong(o[0].toString());
+				dateModify = o[1].toString();
+				formname = o[2].toString();
+				state = o[3].toString();
+				step = Integer.parseInt(o[4].toString());
+
+				HibernateUtil.beginTransaction();
+				itemdb = (Itemdb) s.get(Itemdb.class, id);
+				dateOrigin = itemdb.getDate();
+
+				List departmentList = s.createSQLQuery(
+						"select department from formflowdb "
+								+ "where formname='" + formname + "' and step="
+								+ step).list();
+
+				if (departmentList.size() == 0)
+					throw new HibernateException("no such department");
+				department = departmentList.get(0).toString();
+
+				itemInfoList.add(new ItemInfo(id, formname, state, dateOrigin,
+						department, dateModify));
+				if (itemInfoList.size() >= 10)
+					break;
+
+				HibernateUtil.commitTransaction();
+			}
+
+		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		} catch (java.lang.IndexOutOfBoundsException e) {
+			e.printStackTrace();
+			log.fatal(e);
+		}
+		HibernateUtil.closeSession();
+		return itemInfoList;
 	}
 }

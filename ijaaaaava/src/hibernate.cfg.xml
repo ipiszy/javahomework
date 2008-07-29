@@ -20,7 +20,7 @@
 		<property name="dialect">
 			org.hibernate.dialect.MySQLDialect
 		</property>
-		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.transaction.factory_class">
 			org.hibernate.transaction.JDBCTransactionFactory
 		</property>
@@ -31,6 +31,8 @@
 		<mapping resource="Projectdb.hbm.xml" />
 		<mapping resource="Commentdb.hbm.xml" />
 		<mapping resource="Departmentdb.hbm.xml" />
+		<mapping resource="Managerinfodb.hbm.xml" />
+		<mapping resource="Recordhistorydb.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>

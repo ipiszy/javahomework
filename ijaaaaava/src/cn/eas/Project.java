@@ -1,20 +1,21 @@
 package cn.eas;
 
 public class Project {
-	long id;
-	String date;
-	String name;
+	private long id;
+	private String date, name, username;
 	
-	public Project(String name) {
+	public Project(String name, String username) {
 		super();
 		this.name = name;
+		this.username = username;
 	}
 
-	public Project(long id, String date, String name) {
+	public Project(long id, String date, String name, String username) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.name = name;
+		this.username = username;
 	}
 	
 	public long getId() {
@@ -34,6 +35,18 @@ public class Project {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String toString(){
+		return ("id:"+id+"\tname:"+name+"\tusername"+username+"\tdate"+date);
 	}
 
 }

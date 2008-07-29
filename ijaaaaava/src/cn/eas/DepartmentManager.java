@@ -26,8 +26,10 @@ public class DepartmentManager {
 					"select * from departmentdb where name='" + dename + "'")
 					.list();
 
-			if (!departmentList.isEmpty())
+			if (!departmentList.isEmpty()){
 				flag = false;
+				throw new HibernateException("Duplicate department");
+			}
 
 			else
 				s.save(departmentdb);
@@ -59,8 +61,10 @@ public class DepartmentManager {
 					"select * from departmentdb where name='" + dename + "'")
 					.list();
 
-			if (!departmentList.isEmpty())
+			if (!departmentList.isEmpty()){
 				flag = false;
+				throw new HibernateException("Dulicate department");
+			}
 
 			else
 				s.save(departmentdb);
