@@ -1,9 +1,7 @@
 package cn.eas;
 
-import java.util.ArrayList;
-
 public class Record {
-	private String date, applicantName, managerName, record;
+	private String date, applicantName, managerName, comment;
     private boolean result;
     private long itemId;
     
@@ -18,7 +16,7 @@ public class Record {
 		this.date = date;
 		this.applicantName = applicantName;
 		this.managerName = managerName;
-		this.record = record;
+		this.comment = record;
 		this.result = result;
 		this.itemId = itemId;
 	}
@@ -55,18 +53,18 @@ public class Record {
 	public long getItemId() {
 		return itemId;
 	}
-
+	
 
 	public void setItemId(long itemId) {
 		this.itemId = itemId;
 	}
 
 	public String getRecord() {
-		return record;
+		return comment;
 	}
 
 	public void setRecord(String record) {
-		this.record = record;
+		this.comment = record;
 	}	
 	
 }

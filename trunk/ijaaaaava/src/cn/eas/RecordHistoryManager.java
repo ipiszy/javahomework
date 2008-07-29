@@ -10,7 +10,12 @@ import org.hibernate.Session;
 
 public class RecordHistoryManager {
 	private static Log log = LogFactory.getLog(ActivityManager.class);
+	
+	public static void main(String[] args){
+		System.out.println(new RecordHistoryManager().queryRecordHistory("WangJiaying"));
+	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Record> queryRecordHistory(String managerUsername) {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<Record> recordList = new ArrayList<Record>();
@@ -25,24 +30,40 @@ public class RecordHistoryManager {
 
 			String department = managerinfodb.getDepartment();
 
-			List recordHistoryList = s
-					.createSQLQuery(
-							"select comment, i_id, username, date, result from recordhistorydb " +
-							"where department='" + department + "'").list();
-			
+			List recordHistoryList = s.createSQLQuery(
+					"select comment, i_id, username, date, result from recordhistorydb "
+							+ "where department='" + department + "'").list();
+
 			String comment, username, date;
 			boolean result;
 			long i_id;
-			
-			for (Object obj:recordHistoryList){
-				Object[] o = (Object[])obj;
+
+			for (Object obj : recordHistoryList) {
+				Object[] o = (Object[]) obj;
 				comment = o[0].toString();
 				i_id = Long.parseLong(o[1].toString());
 				username = o[2].toString();
-				
-				
-			}
+				date = o[3].toString();
+				result = Boolean.parseBoolean(o[4].toString());
 
+				Accountdb accountdb1 = (Accountdb) s.get(Accountdb.class,
+						username);
+				if (accountdb1 == null)
+					throw new HibernateException("no such manager");
+
+				Itemdb itemdb = (Itemdb) s.get(Itemdb.class, i_id);
+				if (itemdb == null)
+					throw new HibernateException("no such item");
+
+				Accountdb accountdb2 = (Accountdb) s.get(Accountdb.class,
+						itemdb.getUsername());
+				if (accountdb2 == null)
+					throw new HibernateException("no such account");
+
+				recordList.add(new Record(date, accountdb2.getName(),
+						accountdb1.getName(), comment, result, i_id));
+			}
+			
 			HibernateUtil.commitTransaction();
 
 		} catch (HibernateException e) {

@@ -6,31 +6,30 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 public class DepartmentManager {
 	private static Log log = LogFactory.getLog(ActivityManager.class);
 
-	public boolean addDepartment(String name) {
+	@SuppressWarnings("unchecked")
+	public boolean addDepartment(String dename) {
 		boolean flag = true;
 		Session s = HibernateUtil.currentSession();
 		try {
 			Departmentdb departmentdb = new Departmentdb();
-			departmentdb.setId(name);
+			departmentdb.setId(dename);
 			departmentdb.setWorktime("");
 			departmentdb.setAffairs("");
 			HibernateUtil.beginTransaction();
 
 			List departmentList = s.createSQLQuery(
-					"select name from departmentdb ").list();
-			for (Object obj : departmentList) {
-				String tempName = obj.toString();
-				if (tempName.equals(name))
-					flag = false;
-			}
+					"select * from departmentdb where name='" + dename + "'")
+					.list();
 
-			if (flag == true)
+			if (!departmentList.isEmpty())
+				flag = false;
+
+			else
 				s.save(departmentdb);
 
 			HibernateUtil.commitTransaction();
@@ -45,27 +44,26 @@ public class DepartmentManager {
 		return flag;
 	}
 
-	public boolean addDepartment(String name, String worktime, String affairs) {
+	@SuppressWarnings("unchecked")
+	public boolean addDepartment(String dename, String worktime, String affairs) {
 		boolean flag = true;
 		Session s = HibernateUtil.currentSession();
 		try {
 			Departmentdb departmentdb = new Departmentdb();
-			departmentdb.setId(name);
+			departmentdb.setId(dename);
 			departmentdb.setWorktime(worktime);
 			departmentdb.setAffairs(affairs);
 			HibernateUtil.beginTransaction();
 
 			List departmentList = s.createSQLQuery(
-					"select name from departmentdb ").list();
-			for (Object obj : departmentList) {
-				String tempName = obj.toString();
-				if (tempName.equals(name))
-					flag = false;
-			}
+					"select * from departmentdb where name='" + dename + "'")
+					.list();
 
-			if (flag == true)
+			if (!departmentList.isEmpty())
+				flag = false;
+
+			else
 				s.save(departmentdb);
-
 			HibernateUtil.commitTransaction();
 
 		} catch (HibernateException e) {
@@ -104,6 +102,7 @@ public class DepartmentManager {
 		return flag;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Department> selectAll() {
 		Session s = HibernateUtil.currentSession();
 		ArrayList<Department> departmentList = new ArrayList<Department>();
@@ -135,10 +134,11 @@ public class DepartmentManager {
 
 	public static void main(String args[]) {
 		DepartmentManager d = new DepartmentManager();
-		// d.addDepartment("aa");
-		// d.addDepartment("c","8:00-9:00","gaizhang");
-		d.delDepartment("aa");
-		// for(Department de:d.selectAll())System.out.println(de.getName()+","
-		// +de.getWorkTime()+","+de.getAffairs());
+		d.addDepartment("aa");
+		d.addDepartment("ce", "8:00-9:00", "gaizhang");
+		// d.delDepartment("aa");
+		for (Department de : d.selectAll())
+			System.out.println(de.getName() + "," + de.getWorkTime() + ","
+					+ de.getAffairs());
 	}
 }
