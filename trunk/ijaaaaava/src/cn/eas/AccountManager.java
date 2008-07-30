@@ -22,6 +22,8 @@ public class AccountManager {
 		System.out.println(new AccountManager().delAccount("ipiszy"));
 		System.out.println(new AccountManager().addAccount(new Account(
 				"ipiszy", "Applicant", "ipiszy", "ipiszy")));
+		System.out.println(new AccountManager().addAccount(new Account(
+				"ipiszy", "Applicant", "ipiszy", "ipiszy"),"ipiszy"));
 	}
 
 	/**
@@ -92,9 +94,10 @@ public class AccountManager {
 	 * @pdOid 231c2c43-de73-42ba-9b12-50c24d9f9520
 	 */
 	public boolean addAccount(Account account, String department) {
-		Session s = HibernateUtil.currentSession();
+		
 		boolean flag;
 		flag = addAccount(account);
+		Session s = HibernateUtil.currentSession();
 
 		try {
 			HibernateUtil.beginTransaction();
