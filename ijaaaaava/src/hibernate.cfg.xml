@@ -33,6 +33,7 @@
 		<mapping resource="Departmentdb.hbm.xml" />
 		<mapping resource="Managerinfodb.hbm.xml" />
 		<mapping resource="Recordhistorydb.hbm.xml" />
+		<mapping resource="Messagedb.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>
