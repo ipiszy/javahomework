@@ -34,8 +34,9 @@ public class RecordHistoryManager {
 					"select comment, i_id, username, date, result from recordhistorydb "
 							+ "where department='" + department + "'").list();
 
-			String comment, username, date;
+			String comment, username, date, formName;
 			boolean result;
+			String resultString;
 			long i_id;
 
 			for (Object obj : recordHistoryList) {
@@ -45,6 +46,10 @@ public class RecordHistoryManager {
 				username = o[2].toString();
 				date = o[3].toString();
 				result = Boolean.parseBoolean(o[4].toString());
+				if (result == true)
+					resultString = "Õ¨“‚…Í«Î";
+				else
+					resultString = "…Í«Î≤µªÿ";
 
 				Accountdb accountdb1 = (Accountdb) s.get(Accountdb.class,
 						username);
@@ -54,14 +59,15 @@ public class RecordHistoryManager {
 				Itemdb itemdb = (Itemdb) s.get(Itemdb.class, i_id);
 				if (itemdb == null)
 					throw new HibernateException("no such item");
+				formName = itemdb.getFormname();
 
 				Accountdb accountdb2 = (Accountdb) s.get(Accountdb.class,
 						itemdb.getUsername());
 				if (accountdb2 == null)
 					throw new HibernateException("no such account");
-
+				
 				recordList.add(new Record(date, accountdb2.getName(),
-						accountdb1.getName(), comment, result, i_id));
+						accountdb1.getName(), comment, formName, resultString, i_id));
 			}
 			
 			HibernateUtil.commitTransaction();
@@ -77,9 +83,6 @@ public class RecordHistoryManager {
 
 	}
 
-	/*
-	 * public ArrayList<Record> queryRecordHistory(String department) { }
-	 */
 
 	public boolean addRecord(Itemdb itemdb, String managerUsername,
 			String comment, boolean result) {

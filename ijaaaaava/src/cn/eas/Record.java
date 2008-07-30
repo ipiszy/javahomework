@@ -1,8 +1,8 @@
 package cn.eas;
 
 public class Record {
-	private String date, applicantName, managerName, comment;
-	private boolean result;
+	private String date, applicantName, managerName, comment, formName;
+	private String result;
 	private long itemId;
 
 	public Record() {
@@ -10,12 +10,13 @@ public class Record {
 	}
 
 	public Record(String date, String applicantName, String managerName,
-			String record, boolean result, long itemId) {
+			String comment, String formName, String result, long itemId) {
 		super();
 		this.date = date;
 		this.applicantName = applicantName;
 		this.managerName = managerName;
-		this.comment = record;
+		this.comment = comment;
+		this.formName = formName;
 		this.result = result;
 		this.itemId = itemId;
 	}
@@ -44,14 +45,6 @@ public class Record {
 		this.managerName = managerName;
 	}
 
-	public boolean isResult() {
-		return result;
-	}
-
-	public void setResult(boolean result) {
-		this.result = result;
-	}
-
 	public long getItemId() {
 		return itemId;
 	}
@@ -68,6 +61,31 @@ public class Record {
 		this.comment = record;
 	}
 
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getFormName() {
+		return formName;
+	}
+
+	public void setFormName(String formName) {
+		this.formName = formName;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+	
 	public String toString() {
 		return ("date:" + date + "\tapplicantName:" + applicantName
 				+ "\tmanagerName:" + managerName + "\tcomment:" + comment
