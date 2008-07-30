@@ -64,9 +64,16 @@ public class ActivityManager {
 		// System.out.println(item); System.out.println(new
 		// ActivityManager().submitItem(item.getId(), "Azu", true, "so
 		// clever!"));
-
+		// System.out.println(new ActivityManager().queryItem(44));
+		// System.out.println(new ActivityManager().addItem("缺省工程", "团改金申请表",
+		// "等待批复", "ruciwawa", 0));
+		// System.out.println(new ActivityManager().addItem("缺省工程", "交换生申请表",
+		// "等待批复", "ipiszy", 0));
+		// System.out.println(new ActivityManager().addItem("缺省工程", "团改金申请表",
+		// "等待批复", "ipiszy", 0));
+		System.out.println(new ProjectManager().openProject(0, "ipiszy"));
+		System.out.println(new ProjectManager().openProject(0, "ruciwawa"));
 		System.out.println(new ActivityManager().queryItem(44));
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -81,6 +88,9 @@ public class ActivityManager {
 							+ username + "'").list();
 			HibernateUtil.commitTransaction();
 
+			if (itemList.size()==0)
+				throw new HibernateException("no such item");
+			
 			for (Object obj : itemList) {
 				Object[] o = (Object[]) obj;
 				long id = Long.parseLong(o[0].toString());
@@ -239,7 +249,6 @@ public class ActivityManager {
 		boolean flag = true;
 
 		try {
-
 			HibernateUtil.beginTransaction();
 			Itemdb itemdb = new Itemdb();
 			itemdb.setContent(content);
@@ -284,6 +293,9 @@ public class ActivityManager {
 									+ "where itemdb.state='等待批复' AND department='"
 									+ department + "'").list();
 			HibernateUtil.commitTransaction();
+
+			if (itemList.size() == 0)
+				throw new HibernateException("no such item");
 
 			for (Object obj : itemList) {
 				Object[] o = (Object[]) obj;
@@ -423,6 +435,9 @@ public class ActivityManager {
 									+ "' and step=" + step).list();
 					HibernateUtil.commitTransaction();
 
+					if (listFormflow.size() == 0)
+						throw new HibernateException("no sucn formflow");
+
 					for (Object obj : listFormflow) {
 						finalStep = (Boolean) obj;
 						flag = true;
@@ -508,6 +523,9 @@ public class ActivityManager {
 			String dateOrigin, dateModify, formname, state, department;
 			int step;
 			Itemdb itemdb;
+
+			if (newsList.size() == 0)
+				throw new HibernateException("no news");
 
 			for (Object obj : newsList) {
 				Object[] o = (Object[]) obj;
