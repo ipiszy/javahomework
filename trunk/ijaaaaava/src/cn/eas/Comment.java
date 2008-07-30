@@ -11,6 +11,7 @@ public class Comment {
 		this.comment = comment;
 		this.name = name;
 		this.date = date;
+		this.department = department;
 	}
 	public Comment(String comment, String name) {
 		super();
@@ -44,6 +45,6 @@ public class Comment {
 	}
 	
 	public String toString(){
-		return ("comment:"+comment+"\tname£º"+name+"\tdate£º"+date);
+		return ("comment:"+comment+"\tname£º"+name+"\tdate£º"+date+"\tdepartment:"+department);
 	}
 }

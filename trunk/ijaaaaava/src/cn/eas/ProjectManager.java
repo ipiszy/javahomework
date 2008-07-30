@@ -12,7 +12,7 @@ public class ProjectManager {
 	private static Log log = LogFactory.getLog(ActivityManager.class);
 
 	public static void main(String args[]) {
-		//ProjectManager p = new ProjectManager();
+		// ProjectManager p = new ProjectManager();
 		// p.createProject("aaa");
 		// for (ItemInfo i : p.openProject(1))
 		// System.out.println(i.getDate() + " " + i.getFormname() + " "
@@ -64,7 +64,7 @@ public class ProjectManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<ItemInfo> openProject(long id) {
+	public ArrayList<ItemInfo> openProject(long id, String username) {
 
 		Session s = HibernateUtil.currentSession();
 		ArrayList<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
@@ -72,9 +72,11 @@ public class ProjectManager {
 			HibernateUtil.beginTransaction();
 			List itemList = s.createSQLQuery(
 					"SELECT id, formname, state, date ,step from itemdb where projectid="
-							+ id).list();
+							+ id + " and username = '" + username + "'").list();
 			HibernateUtil.commitTransaction();
 
+			if (itemList.size() == 0)
+				throw new HibernateException("no such item");
 			for (Object obj : itemList) {
 				Object[] o = (Object[]) obj;
 				long i_id = Long.parseLong(o[0].toString());
@@ -127,6 +129,7 @@ public class ProjectManager {
 
 		Session s = HibernateUtil.currentSession();
 		ArrayList<Project> projectList = new ArrayList<Project>();
+		projectList.add(new Project(0, "", "È±Ê¡¹¤³Ì", username));
 
 		try {
 			HibernateUtil.beginTransaction();
@@ -134,6 +137,9 @@ public class ProjectManager {
 					"SELECT id,date,name from projectdb where username='"
 							+ username + "'").list();
 			HibernateUtil.commitTransaction();
+
+			if (itemList.size() == 0)
+				throw new HibernateException("no such item");
 
 			for (Object obj : itemList) {
 				Object[] o = (Object[]) obj;
