@@ -20,7 +20,8 @@ public class RecordHistoryManager {
    
    /** @param managerUsername
     * @pdOid 81e2497a-552c-4df4-bb38-d08fcc4b8576 */
-   public ArrayList<Record> queryRecordHistory(String managerUsername) {
+   @SuppressWarnings("unchecked")
+public ArrayList<Record> queryRecordHistory(String managerUsername) {
    	Session s = HibernateUtil.currentSession();
    	ArrayList<Record> recordList = new ArrayList<Record>();
    
@@ -51,9 +52,9 @@ public class RecordHistoryManager {
    			date = o[3].toString();
    			result = Boolean.parseBoolean(o[4].toString());
    			if (result == true)
-   				resultString = "ÂêåÊÑèÁî≥ËØ∑";
+   				resultString = "Õ¨“‚…Í«Î";
    			else
-   				resultString = "Áî≥ËØ∑È©≥Âõû";
+   				resultString = "…Í«Î≤µªÿ";
    
    			Accountdb accountdb1 = (Accountdb) s.get(Accountdb.class,
    					username);
@@ -129,7 +130,8 @@ public class RecordHistoryManager {
    
    /** @param itemId
     * @pdOid 357b1e3d-8820-4544-8049-0efcf43a30c5 */
-   public ArrayList<Comment> queryComments(long itemId) {
+   @SuppressWarnings("unchecked")
+public ArrayList<Comment> queryComments(long itemId) {
    	ArrayList<Comment> comments = new ArrayList<Comment>();
    
    	Session s = HibernateUtil.currentSession();

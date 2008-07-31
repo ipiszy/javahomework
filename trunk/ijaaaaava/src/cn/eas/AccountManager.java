@@ -17,13 +17,18 @@ public class AccountManager {
 	 * @pdOid 50ef8812-1f8c-4ac7-9ea8-8b1916a1d79d
 	 */
 	public static void main(String[] args) {
-		System.out.println(new AccountManager().selectAll());
-		System.out.println(new AccountManager().queryAccount("ipiszy"));
-		System.out.println(new AccountManager().delAccount("ipiszy"));
-		System.out.println(new AccountManager().addAccount(new Account(
-				"ipiszy", "Applicant", "ipiszy", "ipiszy")));
-		System.out.println(new AccountManager().addAccount(new Account(
-				"ipiszy", "Applicant", "ipiszy", "ipiszy"),"ipiszy"));
+		/*
+		 * System.out.println(new AccountManager().selectAll());
+		 * System.out.println(new AccountManager().queryAccount("ipiszy"));
+		 * System.out.println(new AccountManager().delAccount("ipiszy"));
+		 * System.out.println(new AccountManager().addAccount(new Account(
+		 * "ipiszy", "Applicant", "ipiszy", "ipiszy"))); System.out.println(new
+		 * AccountManager().addAccount(new Account( "ipiszy", "Applicant",
+		 * "ipiszy", "ipiszy"),"ipiszy"));
+		 */
+		
+		
+		//System.out.println(new AccountManager().queryLogin("ipiszy", "ipiszy"));
 	}
 
 	/**
@@ -94,7 +99,7 @@ public class AccountManager {
 	 * @pdOid 231c2c43-de73-42ba-9b12-50c24d9f9520
 	 */
 	public boolean addAccount(Account account, String department) {
-		
+
 		boolean flag;
 		flag = addAccount(account);
 		Session s = HibernateUtil.currentSession();
@@ -166,7 +171,7 @@ public class AccountManager {
 
 			if (managerinfodb != null)
 				department = managerinfodb.getDepartment();
-			
+
 		} catch (HibernateException e) {
 			HibernateUtil.commitTransaction();
 			e.printStackTrace();
