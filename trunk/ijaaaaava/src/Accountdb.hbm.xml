@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="cn.eas">
+	<class
+		name="Accountdb"
+		table="accountdb"
+	>
+		<meta attribute="sync-DAO">ture</meta>
+		<id
+			name="Id"
+			type="string"
+			column="username"
+		>
+		</id>
+
+		<property
+			name="Name"
+			column="name"
+			type="string"
+			not-null="true"
+			length="45"
+		/>
+		<property
+			name="Password"
+			column="password"
+			type="string"
+			not-null="true"
+			length="45"
+		/>
+		<property
+			name="Type"
+			column="type"
+			type="string"
+			not-null="true"
+			length="10"
+		/>
+		<property
+			name="Disabled"
+			column="disabled"
+			type="boolean"
+			not-null="true"
+		/>
+		<property
+			name="Note"
+			column="note"
+			type="string"
+			not-null="true"
+		/>
+
+
+	</class>	
+</hibernate-mapping>
