@@ -349,8 +349,7 @@ public class ActivityManager {
 	 * @pdOid 05d8080f-44ed-4d39-9222-2bdb89b7017e
 	 */
 	@SuppressWarnings("unchecked")
-	public Item loadItem(long id) {
-		Session s = HibernateUtil.currentSession();
+	public Item loadItem(long id, Session s) {
 		Item item = null;
 
 		try {
@@ -384,7 +383,6 @@ public class ActivityManager {
 			e.printStackTrace();
 			log.fatal(e);
 		}
-		HibernateUtil.closeSession();
 		return item;
 	}
 
@@ -430,7 +428,7 @@ public class ActivityManager {
 						id = Long.parseLong(obj.toString());
 				}
 
-				item = loadItem(id);
+				item = loadItem(id,s);
 			}
 		} catch (HibernateException e) {
 			e.printStackTrace();
