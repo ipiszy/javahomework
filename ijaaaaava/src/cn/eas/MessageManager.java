@@ -91,21 +91,55 @@ public class MessageManager {
 			HibernateUtil.beginTransaction();
 			List list = s.createSQLQuery("select * from messagedb").list();
 			HibernateUtil.commitTransaction();
-			
-			if (list.size() == 0)
-				throw new HibernateException("no items");
 
-			for (Object obj : list) {
-				Object[] o = (Object[]) obj;
-				long messageID = Long.parseLong(o[0].toString());
-				String userName = o[1].toString();
-				String messageLeaver = o[2].toString();
-				String message = o[3].toString();
-				String date = o[4].toString();
-				messageList.add(new Message(messageID, date, userName, message,
-						messageLeaver));
+			if (list.size() != 0) {
+
+				for (Object obj : list) {
+					Object[] o = (Object[]) obj;
+					long messageID = Long.parseLong(o[0].toString());
+					String userName = o[1].toString();
+					String messageLeaver = o[2].toString();
+					String message = o[3].toString();
+					String date = o[4].toString();
+					messageList.add(new Message(messageID, date, userName,
+							message, messageLeaver));
+				}
 			}
+		} catch (HibernateException e) {
+			HibernateUtil.commitTransaction();
+			e.printStackTrace();
+			log.fatal(e);
+		}
 
+		HibernateUtil.closeSession();
+
+		return messageList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Message> selectAll(String username) {
+		Session s = HibernateUtil.currentSession();
+		ArrayList<Message> messageList = new ArrayList<Message>();
+		try {
+			HibernateUtil.beginTransaction();
+			List list = s.createSQLQuery(
+					"select * from messagedb where username = '" + username
+							+ "'").list();
+			HibernateUtil.commitTransaction();
+
+			if (list.size() != 0) {
+
+				for (Object obj : list) {
+					Object[] o = (Object[]) obj;
+					long messageID = Long.parseLong(o[0].toString());
+					String userName = o[1].toString();
+					String messageLeaver = o[2].toString();
+					String message = o[3].toString();
+					String date = o[4].toString();
+					messageList.add(new Message(messageID, date, userName,
+							message, messageLeaver));
+				}
+			}
 		} catch (HibernateException e) {
 			HibernateUtil.commitTransaction();
 			e.printStackTrace();
@@ -145,14 +179,17 @@ public class MessageManager {
 
 	public static void main(String args[]) {
 		MessageManager m = new MessageManager();
-		 m.addMessage("hello");
-		 m.addMessage("zz","hello,world","yy");
+		m.addMessage("hello");
+		m.addMessage("zz", "hello,world", "yy");
 		// m.delMessage(2);
-		System.out.println(m.queryMessage(3).getID() + " " + m.queryMessage(3).getUsername()
-				+ " " + m.queryMessage(3).getMessageLeaver() + " "
-				+ m.queryMessage(3).getMessage() + " " + m.queryMessage(3).getDate());
-		 for(Message me:m.selectAll())System.out.println(me.getUsername()+","
-		 +me.getMessageLeaver()+","+me.getMessage()+","+me.getDate());
+		System.out.println(m.queryMessage(3).getID() + " "
+				+ m.queryMessage(3).getUsername() + " "
+				+ m.queryMessage(3).getMessageLeaver() + " "
+				+ m.queryMessage(3).getMessage() + " "
+				+ m.queryMessage(3).getDate());
+		for (Message me : m.selectAll())
+			System.out.println(me.getUsername() + "," + me.getMessageLeaver()
+					+ "," + me.getMessage() + "," + me.getDate());
 
 	}
 }

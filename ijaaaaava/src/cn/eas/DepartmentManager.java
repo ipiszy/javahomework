@@ -14,7 +14,8 @@ public class DepartmentManager {
    
    /** @param dename
     * @pdOid 2eb9a576-6882-41d3-8638-0140dfe71413 */
-   public boolean addDepartment(String dename) {
+   @SuppressWarnings("unchecked")
+public boolean addDepartment(String dename) {
    	boolean flag = true;
    	Session s = HibernateUtil.currentSession();
    	try {
@@ -52,7 +53,8 @@ public class DepartmentManager {
     * @param worktime 
     * @param affairs
     * @pdOid 69c23b6b-2e35-4efa-9265-63ffa03f6303 */
-   public boolean addDepartment(String dename, String worktime, String affairs) {
+   @SuppressWarnings("unchecked")
+public boolean addDepartment(String dename, String worktime, String affairs) {
    	boolean flag = true;
    	Session s = HibernateUtil.currentSession();
    	try {

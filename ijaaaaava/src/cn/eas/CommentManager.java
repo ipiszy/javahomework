@@ -50,7 +50,8 @@ public class CommentManager {
    
    /** @param itemId
     * @pdOid 10c1b12c-0b40-4981-b056-30cacb7032fe */
-   public ArrayList<Comment> queryComments(long itemId) {
+   @SuppressWarnings("unchecked")
+public ArrayList<Comment> queryComments(long itemId) {
    	ArrayList<Comment> comments = new ArrayList<Comment>();
    
    	Session s = HibernateUtil.currentSession();
