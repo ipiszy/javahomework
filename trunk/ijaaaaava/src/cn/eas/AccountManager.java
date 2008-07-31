@@ -202,7 +202,7 @@ public class AccountManager {
 				username = ((Object[]) obj)[0].toString();
 				name = ((Object[]) obj)[1].toString();
 				type = ((Object[]) obj)[2].toString();
-				disabled = Boolean.parseBoolean(((Object[]) obj)[2].toString());
+				disabled = Boolean.parseBoolean(((Object[]) obj)[3].toString());
 				if (disabled == false)
 					accountInfoList.add(new AccountInfo(username, name, type));
 			}
