@@ -21,14 +21,15 @@ public class AccountManager {
 		 * System.out.println(new AccountManager().selectAll());
 		 * System.out.println(new AccountManager().queryAccount("ipiszy"));
 		 * System.out.println(new AccountManager().delAccount("ipiszy"));
-		 * System.out.println(new AccountManager().addAccount(new Account(
-		 * "ipiszy", "Applicant", "ipiszy", "ipiszy"))); System.out.println(new
-		 * AccountManager().addAccount(new Account( "ipiszy", "Applicant",
-		 * "ipiszy", "ipiszy"),"ipiszy"));
 		 */
-		
-		
-		//System.out.println(new AccountManager().queryLogin("ipiszy", "ipiszy"));
+
+		System.out.println(new AccountManager().addAccount(new Account(
+				"ipiszy", "Applicant", "ipiszy", "ipiszy")));
+		System.out.println(new AccountManager().addAccount(new Account(
+				"ipiszy", "Applicant", "ipiszy", "ipiszy"), "ipiszy"));
+
+		System.out.println(new AccountManager().queryLogin("ipiszy", "ipiszy"));
+		System.out.println(new AccountManager().queryLogin("aay", "a"));
 	}
 
 	/**
@@ -78,6 +79,7 @@ public class AccountManager {
 			accountdb.setName(account.getName());
 			accountdb.setPassword(account.getPassword());
 			accountdb.setType(account.getType());
+			accountdb.setNote("");
 
 			HibernateUtil.beginTransaction();
 			s.saveOrUpdate(accountdb);
