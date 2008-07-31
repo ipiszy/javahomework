@@ -21,18 +21,17 @@ public class ActivityManager {
 
 		/*
 		 * System.out.println(new ProjectManager().queryProjects("ipiszy"));
-		 * long id = new
-		 * ProjectManager().createProject("","ipiszy");
+		 * long id = new ProjectManager().createProject("","ipiszy");
 		 * System.out.println(new ProjectManager().queryProjects("ipiszy"));
 		 * 
 		 * long id2 = new ProjectManager().createProject("","ruciwawa");
 		 * System.out.println(new ProjectManager().queryProjects("ruciwawa"));
 		 * 
-		 * //System.out.println(new ActivityManager().addItem("test1",
-		 * "", "", "ipiszy", id)); //System.out.println(new
-		 * ActivityManager().addItem("test1", "", "", "ipiszy",
-		 * id)); //System.out.println(new ActivityManager().addItem("test2",
-		 * "", "", "ruciwawa", id2));
+		 * //System.out.println(new ActivityManager().addItem("test1", "", "",
+		 * "ipiszy", id)); //System.out.println(new
+		 * ActivityManager().addItem("test1", "", "", "ipiszy", id));
+		 * //System.out.println(new ActivityManager().addItem("test2", "", "",
+		 * "ruciwawa", id2));
 		 */
 
 		// System.out.println(new ActivityManager().queryItems(1));
@@ -358,28 +357,29 @@ public class ActivityManager {
 			HibernateUtil.beginTransaction();
 
 			Itemdb itemdb = (Itemdb) s.get(Itemdb.class, id);
-			if (itemdb == null)
-				throw new HibernateException("no such item");
-			itemdb.setState("正在审批");
-			s.update(itemdb);
-			HibernateUtil.commitTransaction();
+			if (itemdb != null) {
+				itemdb.setState("正在审批");
+				s.update(itemdb);
+				HibernateUtil.commitTransaction();
 
-			item = new Item(id, itemdb.getFormname(), itemdb.getState(), itemdb
-					.getDate(), itemdb.getUsername(), itemdb.getContent(),
-					itemdb.getStep(), new CommentManager().queryComments(itemdb
-							.getId()), itemdb.getProjectid());
+				item = new Item(id, itemdb.getFormname(), itemdb.getState(),
+						itemdb.getDate(), itemdb.getUsername(), itemdb
+								.getContent(), itemdb.getStep(),
+						new CommentManager().queryComments(itemdb.getId()),
+						itemdb.getProjectid());
 
-			List dateList = s.createSQLQuery(
-					"select date from recordhistorydb where i_id=" + id
-							+ " order by date desc").list();
+				List dateList = s.createSQLQuery(
+						"select date from recordhistorydb where i_id=" + id
+								+ " order by date desc").list();
 
-			if (dateList.size() == 0)
-				item.setLastModify("");
-			else
-				item.setLastModify(dateList.get(0).toString());
+				if (dateList.size() == 0)
+					item.setLastModify("");
+				else
+					item.setLastModify(dateList.get(0).toString());
 
-			item.setCommentList(new RecordHistoryManager().queryComments(id));
-
+				item.setCommentList(new RecordHistoryManager()
+						.queryComments(id));
+			}
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
