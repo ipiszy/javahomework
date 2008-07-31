@@ -61,7 +61,8 @@ public class ActivityManager {
 		 * System.out.println(new ActivityManager().queryItem(47));
 		 */
 
-		// Item item = new ActivityManager().loadItem("Azu");
+		Item item = new ActivityManager().loadItem("Azu");
+		System.out.println(item);
 		// System.out.println(item); System.out.println(new
 		// ActivityManager().submitItem(item.getId(), "Azu", true, "so
 		// clever!"));
@@ -75,9 +76,9 @@ public class ActivityManager {
 		// System.out.println(new ActivityManager().addItem("",
 		// "",
 		// "", "ipiszy", 0));
-		System.out.println(new ProjectManager().openProject(0, "ipiszy"));
+		/*System.out.println(new ProjectManager().openProject(0, "ipiszy"));
 		System.out.println(new ProjectManager().openProject(0, "ruciwawa"));
-		System.out.println(new ActivityManager().queryItem(44));
+		System.out.println(new ActivityManager().queryItem(44));*/
 	}
 
 	/**
