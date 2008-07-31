@@ -76,9 +76,11 @@ public class ActivityManager {
 		// System.out.println(new ActivityManager().addItem("",
 		// "",
 		// "", "ipiszy", 0));
-		/*System.out.println(new ProjectManager().openProject(0, "ipiszy"));
-		System.out.println(new ProjectManager().openProject(0, "ruciwawa"));
-		System.out.println(new ActivityManager().queryItem(44));*/
+		/*
+		 * System.out.println(new ProjectManager().openProject(0, "ipiszy"));
+		 * System.out.println(new ProjectManager().openProject(0, "ruciwawa"));
+		 * System.out.println(new ActivityManager().queryItem(44));
+		 */
 	}
 
 	/**
@@ -423,18 +425,21 @@ public class ActivityManager {
 					.list();
 			HibernateUtil.commitTransaction();
 
-			if (itemList.size() != 0) {
-				for (Object obj : itemList) {
-					if (obj != null)
-						id = Long.parseLong(obj.toString());
-				}
+			if (itemList.size() == 0)
+				throw new HibernateException("no such item");
 
-				item = loadItem(id,s);
+			for (Object obj : itemList) {
+				if (obj != null)
+					id = Long.parseLong(obj.toString());
 			}
+
+			item = loadItem(id, s);
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			log.fatal(e);
 		}
+
+		HibernateUtil.closeSession();
 
 		return item;
 
