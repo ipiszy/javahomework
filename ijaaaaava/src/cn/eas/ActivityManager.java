@@ -352,7 +352,7 @@ public class ActivityManager {
 	@SuppressWarnings("unchecked")
 	public Item loadItem(long id) {
 		Session s = HibernateUtil.currentSession();
-		Item item = new Item();
+		Item item = null;
 
 		try {
 			HibernateUtil.beginTransaction();
